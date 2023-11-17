@@ -6,8 +6,8 @@
   - [X] Test connection.
 
 - Backend API Endpoint Creation
-  - [ ] Implement a new API endpoint for handling search queries.
-  - [ ] Manual test the endpoint.
+  - [X] Implement a new API endpoint for handling search queries.
+  - [X] Manual test the endpoint.
 
 - Testing and Debugging
   - [ ] Write unit and integration tests for the new search functionality.
