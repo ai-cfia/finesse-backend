@@ -1,3 +1,4 @@
+azure-search-documents
 flask
 gunicorn
-# additional dependencies
+python-dotenv
