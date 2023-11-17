@@ -2,21 +2,13 @@ import unittest
 from dataclasses import dataclass
 
 from app.app_creator import create_app
-from app.azure_search import AzureSearchConfig
 from app.config import Config
-
-
-@dataclass
-class TestAzureConfig(AzureSearchConfig):
-    endpoint = ""
-    api_key = ""
-    index_name = ""
-    client = None
+from tests.common import TestAzureSearchConfig
 
 
 @dataclass
 class TestConfig(Config):
-    app_config = TestAzureConfig()
+    app_config = TestAzureSearchConfig()
 
 
 class TestApp(unittest.TestCase):

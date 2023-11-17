@@ -10,7 +10,7 @@
   - [X] Manual test the endpoint.
 
 - Testing and Debugging
-  - [ ] Write unit and integration tests for the new search functionality.
+  - [X] Write unit and integration tests for the new search functionality.
   - [ ] Test the endpoint with different search scenarios and document any bugs.
 
 - Documentation

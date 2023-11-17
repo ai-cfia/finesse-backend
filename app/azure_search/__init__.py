@@ -7,7 +7,7 @@ class AzureSearchQueryError(Exception):
     """Raised when the search operation fails."""
 
 
-def search_documents(query, config: AzureSearchConfig):
+def azure_search_documents(query, config: AzureSearchConfig):
     if not query:
         logging.warning("Empty search query received")
         return []
