@@ -2,8 +2,8 @@
 
 - Set Up Azure Cognitive Search Connection
   - [X] Prepare the development environment.
-  - [ ] Establish a secure connection to the Azure Cognitive Search service.
-  - [ ] Test connection.
+  - [X] Establish a secure connection to the Azure Cognitive Search service.
+  - [X] Test connection.
 
 - Backend API Endpoint Creation
   - [ ] Implement a new API endpoint for handling search queries.
