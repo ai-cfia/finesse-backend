@@ -1,7 +1,9 @@
 import os
+
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents.indexes import SearchIndexClient
 from dotenv import load_dotenv
+
 
 def test_index_existence():
     load_dotenv()
@@ -23,5 +25,5 @@ def test_index_existence():
     except Exception as e:
         print("Failed to connect or retrieve data:", e)
 
-# Run the test
+
 test_index_existence()

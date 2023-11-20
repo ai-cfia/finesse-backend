@@ -7,10 +7,14 @@ class AzureSearchQueryError(Exception):
     """Raised when the search operation fails."""
 
 
+class EmptyQueryError(Exception):
+    """Raised when the search query is empty."""
+
+
 def azure_search_documents(query, config: AzureSearchConfig):
     if not query:
-        logging.warning("Empty search query received")
-        return []
+        logging.error("Empty search query received")
+        raise EmptyQueryError("Search query cannot be empty")
     try:
         results = config.client.search(search_text=query)
         return [dict(result) for result in results]
