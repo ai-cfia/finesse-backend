@@ -2,3 +2,4 @@ azure-search-documents
 flask
 gunicorn
 python-dotenv
+git+https://github.com/ai-cfia/azure-db.git@k-allagbe/issue1-ai-search-package#subdirectory=azure-ai-search

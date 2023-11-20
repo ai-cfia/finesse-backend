@@ -2,3 +2,4 @@ azure-search-documents==11.4.0  # Released: 2023-11-13
 flask==3.0.0                    # Released: 2023-09-30
 gunicorn==21.2.0                # Released: 2023-07-19
 python-dotenv==1.0.0            # Released: 2023-02-24
+git+https://github.com/ai-cfia/azure-db.git@k-allagbe/issue1-ai-search-package#subdirectory=azure-ai-search
