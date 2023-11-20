@@ -9,12 +9,10 @@ skinparam rectangle {
     BackgroundColor<<Data Tier>> Wheat
 }
 
-
 rectangle  <<Frontend Tier>> {
     component "finesse-frontend" as ff
     component "crawler-frontend" as cf
 }
-
 
 rectangle <<Logic Tier>> {
     component "finesse-backend" as fb
@@ -26,9 +24,11 @@ rectangle <<External >> {
     component RDIMS
 }
 
-
 rectangle  <<Data Tier>> {
-    database "finesse-ai-search/ailab" <<Index>> as db
+    node "Indexes" as db {
+        component "finesse-ai-search-index"
+        component "ailab" as ailab
+    }
     database "finesse-storage-account" <<Blob Storage>> as bs {
         folder "finesse-documents-container" as fdc {
             object document {
