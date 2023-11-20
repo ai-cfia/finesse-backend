@@ -28,7 +28,7 @@ rectangle <<External >> {
 
 
 rectangle  <<Data Tier>> {
-    database "finesse-ai-search/ailab-db" <<Index>> as db
+    database "finesse-ai-search/ailab" <<Index>> as db
     database "finesse-storage-account" <<Blob Storage>> as bs {
         folder "finesse-documents-container" as fdc {
             object document {
