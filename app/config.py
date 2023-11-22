@@ -8,6 +8,8 @@ from index_search import AzureIndexSearchConfig
 
 load_dotenv()
 
+DEFAULT_DEBUG_MODE = "False"
+
 
 @dataclass
 class Config:
@@ -20,4 +22,7 @@ class Config:
             os.getenv("FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME"),
             AzureKeyCredential(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY")),
         ),
+    )
+    DEBUG = (
+        os.getenv("FINESSE_BACKEND_DEBUG_MODE", DEFAULT_DEBUG_MODE).lower() == "true"
     )
