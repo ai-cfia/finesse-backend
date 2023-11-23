@@ -7,5 +7,5 @@
 ## Documentation:
 
 * [Installation](docs/INSTALLATION.md)
-* [Running and testing the API locally](docs/API.md)
+* [Usage](docs/USAGE.md)
 * [Deployment](docs/DEPLOYMENT.md)

@@ -23,7 +23,8 @@ JSON structure explanation:
 
 - id: The unique identifier for each document.
 - url: The URL of the document, which should point to inspection.canada.ca.
-- score: Represents the search score, indicating the relevance of the document to the query.
+- score: Represents the search score, indicating the relevance of the document
+  to the query.
 - title: The title of the document.
 - content: The main content or body of the document.
 - subtitle: The title or titles extracted from the snippet.
