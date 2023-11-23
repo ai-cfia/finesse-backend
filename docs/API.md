@@ -1,9 +1,16 @@
 ## Running and testing the API
+Create and set the environment variables based on `.env.template`.
 
 Running:
 
 ```
 flask run -h 0.0.0.0 --debug
+```
+
+Alternatively, set the `FINESSE_BACKEND_DEBUG_MODE` environment variable to `True` and 
+run:
+```
+python run.py
 ```
 
 Query from the command-line:
