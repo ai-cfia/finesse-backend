@@ -13,6 +13,7 @@ DEFAULT_ERROR_EMPTY_QUERY = "Search query cannot be empty"
 DEFAULT_ERROR_AZURE_FAILED = "Azure index search failed."
 DEFAULT_ERROR_FINESSE_DATA_FAILED = "finesse-data static search failed"
 DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
+DEFAULT_FUZZY_MATCH_THRESHOLD = "90"
 
 
 @dataclass
@@ -43,4 +44,9 @@ class Config:
     )
     ERROR_UNEXPECTED = os.getenv(
         "FINESSE_BACKEND_ERROR_UNEXPECTED", DEFAULT_ERROR_UNEXPECTED
+    )
+    FUZZY_MATCH_THRESHOLD = int(
+        os.getenv(
+            "FINESSE_BACKEND_FUZZY_MATCH_THRESHOLD", DEFAULT_FUZZY_MATCH_THRESHOLD
+        )
     )

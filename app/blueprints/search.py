@@ -37,8 +37,9 @@ def search_azure():
 def search_static():
     finesse_data_url = current_app.config["FINESSE_DATA_URL"]
     query = request.json["query"]
+    match_threshold = current_app.config["FUZZY_MATCH_THRESHOLD"]
     try:
-        data = fetch_data(finesse_data_url, query)
+        data = fetch_data(finesse_data_url, query, match_threshold)
         return jsonify(data)
     except FinesseDataFetchException:
         return jsonify({"error": current_app.config["ERROR_FINESSE_DATA_FAILED"]}), 500
