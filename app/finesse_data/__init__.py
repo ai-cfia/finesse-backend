@@ -19,6 +19,7 @@ def fetch_data(finesse_data_url, query):
         response = requests.get(finesse_data_url)
         response.raise_for_status()
         files = response.json()
+        query = query.replace("\r\n", "").replace("\n", "")
         normalized_term = query.lower()
         matching_file = next(
             (file for file in files if normalized_term in file["name"].lower()), None
