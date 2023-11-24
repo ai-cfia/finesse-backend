@@ -23,6 +23,7 @@ class Config:
             AzureKeyCredential(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY")),
         ),
     )
+    FINESSE_DATA_URL = os.getenv("FINESSE_BACKEND_STATIC_FILE_URL")
     DEBUG = (
         os.getenv("FINESSE_BACKEND_DEBUG_MODE", DEFAULT_DEBUG_MODE).lower() == "true"
     )
