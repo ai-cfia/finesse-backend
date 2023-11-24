@@ -1,0 +1,56 @@
+@startuml Finesse component diagram
+allowmixing
+title <size:25>Finesse component diagram</size>
+
+skinparam rectangle {
+    BackgroundColor<<Frontend Tier>> LightBlue
+    BackgroundColor<<Logic Tier>> LightGreen
+    BackgroundColor<<External>> none
+    BackgroundColor<<Data Tier>> Wheat
+}
+
+rectangle  <<Frontend Tier>> {
+    component "finesse-frontend" as ff
+    component "crawler-frontend" as cf
+}
+
+rectangle <<Logic Tier>> {
+    component "finesse-backend" as fb
+    component "crawler-backend" as cb
+}
+
+rectangle <<External >> {
+    component "inspection.gc.ca" as igc
+    component RDIMS
+}
+
+rectangle  <<Data Tier>> {
+    node "Indexes" as db {
+        component "finesse-ai-search-index"
+        component "ailab" as ailab
+    }
+    database "finesse-storage-account" <<Blob Storage>> as bs {
+        folder "finesse-documents-container" as fdc {
+            object document {
+                file
+                title
+                url
+                other metadata
+            }
+        }
+    }
+}
+
+
+ff-[hidden]-> cf
+fb-[hidden]-> cb
+ff -r-> fb : fetch
+cf -r-> cb : upload
+cb -d-> igc : crawl
+cb -d-> RDIMS : get
+cb -r-> fdc : store
+cb -r-> db: update
+fb -r-> db: search
+db --> fdc : index
+
+@enduml

@@ -1,3 +1,6 @@
+azure-search-documents
 flask
+flask-cors
 gunicorn
-# additional dependencies
+python-dotenv
+git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
