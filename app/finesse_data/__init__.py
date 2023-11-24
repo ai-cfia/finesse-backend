@@ -1,12 +1,17 @@
 import logging
+import re
+
 import requests
 from fuzzywuzzy import process
+
 
 class FinesseDataFetchException(Exception):
     """Custom exception for errors in fetching data from finesse-data."""
 
+
 class EmptyQueryError(Exception):
     """Raised when the search query is empty."""
+
 
 def fetch_data(finesse_data_url, query, match_threshold):
     if not query:
@@ -18,7 +23,6 @@ def fetch_data(finesse_data_url, query, match_threshold):
         response.raise_for_status()
         files = response.json()
         file_map = {file["name"]: file for file in files}
-        query = query.replace("\r\n", "").replace("\n", "")
         best_match_result = process.extractOne(query, file_map.keys())
         if not best_match_result or best_match_result[1] < match_threshold:
             logging.info(f"No close match found for query: {query}")

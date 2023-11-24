@@ -1,3 +1,4 @@
+import re
 from functools import wraps
 
 from flask import Blueprint, current_app, jsonify, request
@@ -19,10 +20,15 @@ def require_non_empty_query(f):
     return decorated_function
 
 
+def sanitize(input):
+    return re.sub("[^\w\s\d\"#\$%&'\(\)\*\+,-\./:;<=>\?@\[\\\]\^_`{\|}~]+", "", input)
+
+
 @search_blueprint.route("/azure", methods=["POST"])
 @require_non_empty_query
 def search_azure():
     query = request.json["query"]
+    query = sanitize(query)
     try:
         results = search(query, current_app.config["AZURE_CONFIG"])
         return jsonify(results)
@@ -37,6 +43,7 @@ def search_azure():
 def search_static():
     finesse_data_url = current_app.config["FINESSE_DATA_URL"]
     query = request.json["query"]
+    query = sanitize(query)
     match_threshold = current_app.config["FUZZY_MATCH_THRESHOLD"]
     try:
         data = fetch_data(finesse_data_url, query, match_threshold)
