@@ -1,9 +1,9 @@
 from functools import wraps
 
 from flask import Blueprint, current_app, jsonify, request
-from index_search import search
+from index_search import AzureIndexSearchQueryError, search
 
-from app.finesse_data import fetch_data
+from app.finesse_data import FinesseDataFetchException, fetch_data
 
 search_blueprint = Blueprint("finesse", __name__)
 
@@ -13,7 +13,7 @@ def require_non_empty_query(f):
     def decorated_function(*args, **kwargs):
         query = request.json.get("query")
         if not query:
-            return jsonify({"message": "Search query cannot be empty"}), 400
+            return jsonify({"message": current_app.config["ERROR_EMPTY_QUERY"]}), 400
         return f(*args, **kwargs)
 
     return decorated_function
@@ -26,8 +26,10 @@ def search_azure():
     try:
         results = search(query, current_app.config["AZURE_CONFIG"])
         return jsonify(results)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except AzureIndexSearchQueryError:
+        return jsonify({"error": current_app.config["ERROR_AZURE_FAILED"]}), 500
+    except Exception:
+        return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500
 
 
 @search_blueprint.route("/static", methods=["POST"])
@@ -38,5 +40,7 @@ def search_static():
     try:
         data = fetch_data(finesse_data_url, query)
         return jsonify(data)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    except FinesseDataFetchException:
+        return jsonify({"error": current_app.config["ERROR_FINESSE_DATA_FAILED"]}), 500
+    except Exception:
+        return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500

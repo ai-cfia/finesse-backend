@@ -31,4 +31,5 @@ def fetch_data(finesse_data_url, query):
         results_response.raise_for_status()
         return results_response.json()
     except requests.RequestException as e:
-        raise FinesseDataFetchException(f"API request failed: {e}") from e
+        logging.error(f"finesse-data fetch failed: {e}", exc_info=True)
+        raise FinesseDataFetchException(f"finesse-data fetch failed: {e}") from e
