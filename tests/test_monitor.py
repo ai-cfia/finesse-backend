@@ -1,17 +1,10 @@
 import unittest
-from dataclasses import dataclass
 
 from app.app_creator import create_app
-from app.config import Config
-from tests.common import TestAzureSearchConfig
+from tests.common import TestConfig
 
 
-@dataclass
-class TestConfig(Config):
-    app_config = TestAzureSearchConfig()
-
-
-class TestMonitorBlueprint(unittest.TestCase):
+class TestMonitor(unittest.TestCase):
     def setUp(self):
         self.config = TestConfig()
         self.app = create_app(self.config)
