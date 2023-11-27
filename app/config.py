@@ -14,6 +14,9 @@ DEFAULT_ERROR_AZURE_FAILED = "Azure index search failed."
 DEFAULT_ERROR_FINESSE_DATA_FAILED = "finesse-data static search failed"
 DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 DEFAULT_FUZZY_MATCH_THRESHOLD = 90
+DEFAULT_SANITIZE_PATTERN = (
+    "[^\w \d\"#\$%&'\(\)\*\+,-\.\/:;?@\^_`{\|}~]+|\%\w+|;|/|\(|\)"
+)
 
 
 @dataclass
@@ -49,4 +52,7 @@ class Config:
         os.getenv(
             "FINESSE_BACKEND_FUZZY_MATCH_THRESHOLD", DEFAULT_FUZZY_MATCH_THRESHOLD
         )
+    )
+    SANITIZE_PATTERN = os.getenv(
+        "FINESSE_BACKEND_SANITIZE_PATTERN", DEFAULT_SANITIZE_PATTERN
     )

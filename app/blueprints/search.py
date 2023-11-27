@@ -5,6 +5,7 @@ from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchQueryError, search
 
 from app.finesse_data import FinesseDataFetchException, fetch_data
+from app.utils import sanitize
 
 search_blueprint = Blueprint("finesse", __name__)
 
@@ -20,15 +21,11 @@ def require_non_empty_query(f):
     return decorated_function
 
 
-def sanitize(input):
-    return re.sub("[^\w\s\d\"#\$%&'\(\)\*\+,-\./:;<=>\?@\[\\\]\^_`{\|}~]+", "", input)
-
-
 @search_blueprint.route("/azure", methods=["POST"])
 @require_non_empty_query
 def search_azure():
     query = request.json["query"]
-    query = sanitize(query)
+    query = sanitize(query, current_app.config["SANITIZE_PATTERN"])
     try:
         results = search(query, current_app.config["AZURE_CONFIG"])
         return jsonify(results)
@@ -43,7 +40,7 @@ def search_azure():
 def search_static():
     finesse_data_url = current_app.config["FINESSE_DATA_URL"]
     query = request.json["query"]
-    query = sanitize(query)
+    query = sanitize(query, current_app.config["SANITIZE_PATTERN"])
     match_threshold = current_app.config["FUZZY_MATCH_THRESHOLD"]
     try:
         data = fetch_data(finesse_data_url, query, match_threshold)
