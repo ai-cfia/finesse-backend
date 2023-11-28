@@ -19,19 +19,19 @@ DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 DEFAULT_SANITIZE_PATTERN = (
     "[^\w \d\"#\$%&'\(\)\*\+,-\.\/:;?@\^_`{\|}~]+|\%\w+|;|/|\(|\)"
 )
-
+DEFAULT_HIGHLIGHT_FIELDS = "content"
+DEFAULT_HIGHLIGHT_TAG = "strong"
 
 @dataclass
 class Config:
     AZURE_CONFIG = AzureIndexSearchConfig(
-        endpoint=os.getenv("FINESSE_BACKEND_AZURE_SEARCH_ENDPOINT"),
-        api_key=os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY"),
-        index_name=os.getenv("FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME"),
         client=SearchClient(
             os.getenv("FINESSE_BACKEND_AZURE_SEARCH_ENDPOINT"),
             os.getenv("FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME"),
             AzureKeyCredential(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY")),
         ),
+        highlight_fields=os.getenv("FINESSE_BACKEND_HIGHLIGHT_FIELDS", DEFAULT_HIGHLIGHT_FIELDS),
+        highlight_tag=os.getenv("FINESSE_BACKEND_HIGHLIGHT_TAG", DEFAULT_HIGHLIGHT_TAG),
     )
     FINESSE_DATA_URL = os.getenv("FINESSE_BACKEND_STATIC_FILE_URL")
     DEBUG = (

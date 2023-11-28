@@ -6,10 +6,12 @@ from app.config import Config
 
 @dataclass
 class TestAzureSearchConfig:
+    client = Mock()
     endpoint = "endpoint"
     api_key = "api_key"
     index_name = "index"
-    client = Mock()
+    highlight_fields = "content"
+    highlight_tag = "strong"
 
 
 @dataclass
