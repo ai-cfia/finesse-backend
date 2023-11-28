@@ -16,5 +16,5 @@ class TestAzureSearchConfig:
 class TestConfig(Config):
     AZURE_CONFIG = TestAzureSearchConfig()
     FINESSE_DATA_URL = ""
-    DEBUG = ""
+    DEBUG = True
     TESTING = True
