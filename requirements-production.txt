@@ -6,3 +6,4 @@ python-dotenv==1.0.0            # Released: 2023-02-24
 git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy==0.18.0 
 python-Levenshtein== 0.23.0
+git+https://github.com/ai-cfia/ailab-db@main

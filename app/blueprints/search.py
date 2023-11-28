@@ -1,9 +1,9 @@
-import re
 from functools import wraps
 
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchQueryError, search
 
+from app.ailab_db import DBError, ailab_db_search
 from app.finesse_data import FinesseDataFetchException, fetch_data
 from app.utils import sanitize
 
@@ -47,5 +47,19 @@ def search_static():
         return jsonify(data)
     except FinesseDataFetchException:
         return jsonify({"error": current_app.config["ERROR_FINESSE_DATA_FAILED"]}), 500
+    except Exception:
+        return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500
+
+
+@search_blueprint.route("/ailab", methods=["POST"])
+@require_non_empty_query
+def search_ailab_db():
+    query = request.json["query"]
+    query = sanitize(query, current_app.config["SANITIZE_PATTERN"])
+    try:
+        results = ailab_db_search(query)
+        return jsonify(results)
+    except DBError:
+        return jsonify({"error": current_app.config["ERROR_AILAB_FAILED"]}), 500
     except Exception:
         return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500
