@@ -1,10 +1,11 @@
+import logging
 from functools import wraps
 
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchQueryError, search
 
 from app.ailab_db import DBError, ailab_db_search
-from app.finesse_data import FinesseDataFetchException, fetch_data
+from app.finesse_data import FinesseDataException, fetch_data, fetch_filenames
 from app.utils import sanitize
 
 search_blueprint = Blueprint("finesse", __name__)
@@ -31,7 +32,8 @@ def search_azure():
         return jsonify(results)
     except AzureIndexSearchQueryError:
         return jsonify({"error": current_app.config["ERROR_AZURE_FAILED"]}), 500
-    except Exception:
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
         return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500
 
 
@@ -45,9 +47,23 @@ def search_static():
     try:
         data = fetch_data(finesse_data_url, query, match_threshold)
         return jsonify(data)
-    except FinesseDataFetchException:
+    except FinesseDataException:
         return jsonify({"error": current_app.config["ERROR_FINESSE_DATA_FAILED"]}), 500
-    except Exception:
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
+        return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500
+
+
+@search_blueprint.route("/static/filenames", methods=["GET"])
+def get_filenames():
+    finesse_data_url = current_app.config["FINESSE_DATA_URL"]
+    try:
+        filenames = fetch_filenames(finesse_data_url)
+        return jsonify(filenames)
+    except FinesseDataException:
+        return jsonify({"error": current_app.config["ERROR_FILENAMES_FAILED"]}), 500
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
         return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500
 
 
@@ -61,5 +77,6 @@ def search_ailab_db():
         return jsonify(results)
     except DBError:
         return jsonify({"error": current_app.config["ERROR_AILAB_FAILED"]}), 500
-    except Exception:
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
         return jsonify({"error": current_app.config["ERROR_UNEXPECTED"]}), 500

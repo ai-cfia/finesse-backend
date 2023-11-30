@@ -4,11 +4,19 @@ import requests
 from fuzzywuzzy import process
 
 
-class FinesseDataFetchException(Exception):
+class FinesseDataException(Exception):
+    """Custom exception for finesse-data operations."""
+
+
+class FinesseDataFetchException(FinesseDataException):
     """Custom exception for errors in fetching data from finesse-data."""
 
 
-class EmptyQueryError(Exception):
+class FinesseDataFilenameFetchException(FinesseDataException):
+    """Custom exception for errors in fetching filenames from finesse-data."""
+
+
+class EmptyQueryError(FinesseDataException):
     """Raised when the search query is empty."""
 
 
@@ -20,15 +28,19 @@ def find_best_match(search_string, candidates, match_threshold):
     return best_match_result[0]
 
 
+def fetch(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return response.json()
+
+
 def fetch_data(finesse_data_url, query, match_threshold):
     if not query:
         logging.error("Empty search query received")
         raise EmptyQueryError("Search query cannot be empty")
 
     try:
-        response = requests.get(finesse_data_url)
-        response.raise_for_status()
-        files = response.json()
+        files = fetch(finesse_data_url)
         file_map = {file["name"]: file for file in files}
         if best_match := find_best_match(query, file_map.keys(), match_threshold):
             matching_file = file_map[best_match]
@@ -37,4 +49,24 @@ def fetch_data(finesse_data_url, query, match_threshold):
             return results_response.json()
     except requests.RequestException as e:
         logging.error(f"finesse-data fetch failed: {e}", exc_info=True)
-        raise FinesseDataFetchException(f"finesse-data fetch failed: {e}") from e
+        raise FinesseDataFetchException(f"Data fetch failed: {e}") from e
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
+        raise FinesseDataException(str(e)) from e
+
+
+def fetch_filenames(finesse_data_url):
+    try:
+        files = fetch(finesse_data_url)
+        filenames = [
+            file["name"].replace(".json", "")
+            for file in files
+            if file["type"] == "file" and file["name"].endswith(".json")
+        ]
+        return filenames
+    except requests.RequestException as e:
+        logging.error(f"finesse-data filenames fetch failed: {e}", exc_info=True)
+        raise FinesseDataFilenameFetchException(f"Filenames fetch failed: {e}") from e
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
+        raise FinesseDataException(str(e)) from e

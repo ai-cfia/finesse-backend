@@ -6,7 +6,9 @@ import requests
 from app.finesse_data import (
     EmptyQueryError,
     FinesseDataFetchException,
+    FinesseDataFilenameFetchException,
     fetch_data,
+    fetch_filenames,
     find_best_match,
 )
 
@@ -81,6 +83,22 @@ class TestFetchData(unittest.TestCase):
             "Completely Unrelated String", self.candidates, self.match_threshold
         )
         self.assertIsNone(result)
+
+    @patch("app.finesse_data.fetch")
+    def test_fetch_filenames_success(self, mock_fetch):
+        mock_fetch.return_value = [
+            {"name": "file1.json", "type": "file"},
+            {"name": "file2.json", "type": "file"},
+        ]
+        expected_result = ["file1", "file2"]
+        result = fetch_filenames(self.finesse_data_url)
+        self.assertEqual(result, expected_result)
+
+    @patch("app.finesse_data.fetch")
+    def test_fetch_filenames_request_exception(self, mock_fetch):
+        mock_fetch.side_effect = requests.RequestException()
+        with self.assertRaises(FinesseDataFilenameFetchException):
+            fetch_filenames(self.finesse_data_url)
 
 
 if __name__ == "__main__":

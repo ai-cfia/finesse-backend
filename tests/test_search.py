@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from app.app_creator import create_app
+from app.finesse_data import FinesseDataException
 from tests.common import TestConfig
 
 
@@ -50,4 +51,17 @@ class TestSearch(unittest.TestCase):
         with patch("app.blueprints.search.search") as mock_search:
             mock_search.side_effect = Exception("Azure search failed")
             response = self.client.post("/search/azure", json={"query": "azure query"})
+            self.assertEqual(response.status_code, 500)
+
+    def test_get_filenames_success(self):
+        with patch("app.blueprints.search.fetch_filenames") as mock_fetch:
+            mock_fetch.return_value = ["filename1", "filename2"]
+            response = self.client.get("/search/static/filenames")
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json, ["filename1", "filename2"])
+
+    def test_get_filenames_error(self):
+        with patch("app.blueprints.search.fetch_filenames") as mock_fetch:
+            mock_fetch.side_effect = FinesseDataException("File fetch failed")
+            response = self.client.get("/search/static/filenames")
             self.assertEqual(response.status_code, 500)
