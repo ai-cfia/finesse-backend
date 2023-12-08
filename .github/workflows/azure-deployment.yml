@@ -13,7 +13,7 @@ jobs:
 
   deploy:
     needs: build
-    uses: ai-cfia/github-workflows/.github/workflows/reusable-deploy-container-azure.yml@55-azure-workflow-deployment-missing
+    uses: ai-cfia/github-workflows/.github/workflows/workflow-deploy-azure.yml@55-azure-workflow-deployment-missing
     with:
       container-name: ${{ github.event.repository.name }}
       tag: ${{ github.sha }}
