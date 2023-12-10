@@ -13,4 +13,4 @@ COPY ./app ./app
 COPY finesse-weights.json .
 
 # Use Gunicorn as the server, configuring it for the Flask app
-ENTRYPOINT gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 --forwarded-allow-ips="*" app:app
+ENTRYPOINT gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 --forwarded-allow-ips "*" app:app
