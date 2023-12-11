@@ -1,3 +1,5 @@
+name: Azure Docker Deployment
+
 on:
   push:
   workflow_dispatch:
