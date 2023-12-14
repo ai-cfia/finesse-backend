@@ -1,4 +1,5 @@
-# Base image with Python 3.11 on Alpine
+# We chose Python 3.11 full variant as other variants lacks some tools necessary 
+# to build this project's dependencies
 FROM python:3.11
 
 # Establish /code as working directory in the container
