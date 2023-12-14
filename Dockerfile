@@ -1,6 +1,6 @@
-# Dockerfile
-# Base image with Python 3.11 on Alpine
-FROM python:3.11-alpine
+# We chose Python 3.11 full variant as other variants lacks some tools necessary 
+# to build this project's dependencies
+FROM python:3.11
 
 # Establish /code as working directory in the container
 WORKDIR /code
@@ -10,7 +10,8 @@ COPY ./requirements-production.txt requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 # Copy source code into the working directory
-COPY ./src .
+COPY ./app ./app
+COPY finesse-weights.json .
 
 # Use Gunicorn as the server, configuring it for the Flask app
 ENTRYPOINT gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 --forwarded-allow-ips "*" app:app

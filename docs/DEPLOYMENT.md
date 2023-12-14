@@ -1,7 +1,8 @@
 # Deployment
 
 ## Azure
-Create and set the environment variables based on `.env.template`. Make sure `FINESSE_BACKEND_DEBUG_MODE` is not set to `True`.
+Create and set the environment variables based on `.env.template`. Make sure 
+`FINESSE_BACKEND_DEBUG_MODE` is NOT set to `True` in PRODUCTION builds.
 
 Build (do this from your WSL Ubuntu where Docker is already installed):
 
@@ -12,5 +13,6 @@ docker build -t finesse-backend .
 test locally:
 
 ```
-docker run -p 5000:5000 -e PORT=5000 finesse-backend
+export PORT=<your_port_here>
+docker run -p $PORT:$PORT -e PORT=$PORT --env-file .env finesse-backend
 ```
