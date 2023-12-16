@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from app.app_creator import create_app
+from app.blueprints.search import AzureIndexSearchQueryError
 from tests.common import TestConfig
 
 
@@ -46,8 +47,20 @@ class TestSearch(unittest.TestCase):
         response = self.client.post("/search/azure", json={})
         self.assertEqual(response.status_code, 400)
 
-    def test_search_azure_error(self):
-        with patch("app.blueprints.search.search") as mock_search:
-            mock_search.side_effect = Exception("Azure search failed")
-            response = self.client.post("/search/azure", json={"query": "azure query"})
+    def test_error_handling_debug_mode(self):
+        self.app.config["DEBUG"] = True
+        with patch("app.blueprints.search.search") as mock_func:
+            mock_func.side_effect = AzureIndexSearchQueryError("Sample Error")
+            response = self.client.post("/search/azure", json={"query": "test query"})
             self.assertEqual(response.status_code, 500)
+            self.assertIn("trace", response.json)
+            self.assertIn("Sample Error", response.json["details"])
+
+    def test_error_handling_non_debug_mode(self):
+        self.app.config["DEBUG"] = False
+        with patch("app.blueprints.search.search") as mock_func:
+            mock_func.side_effect = AzureIndexSearchQueryError("Sample Error")
+            response = self.client.post("/search/azure", json={"query": "test query"})
+            self.assertEqual(response.status_code, 500)
+            self.assertNotIn("trace", response.json)
+            self.assertIn("error", response.json)

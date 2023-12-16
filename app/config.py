@@ -15,7 +15,6 @@ DEFAULT_ERROR_FINESSE_DATA_FAILED = "finesse-data static search failed"
 DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 DEFAULT_FUZZY_MATCH_THRESHOLD = 90
 DEFAULT_ERROR_AILAB_FAILED = "Ailab-db search failed."
-DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 DEFAULT_SANITIZE_PATTERN = (
     "[^\w \d\"#\$%&'\(\)\*\+,-\.\/:;?@\^_`{\|}~]+|\%\w+|;|/|\(|\)"
 )
