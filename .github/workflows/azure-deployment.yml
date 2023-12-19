@@ -12,6 +12,7 @@ jobs:
     secrets: inherit
 
   build:
+    needs: lint-test
     uses: ai-cfia/github-workflows/.github/workflows/workflow-build-push-container-azure.yml@55-azure-workflow-deployment-missing
     with:
       container-name: ${{ github.event.repository.name }}
