@@ -8,6 +8,9 @@ from index_search import AzureIndexSearchConfig
 
 load_dotenv()
 
+AZURE_SEARCH_ENDPOINT = ""
+AZURE_SEARCH_INDEX_NAME = ""
+AZURE_SEARCH_API_KEY = ""
 DEFAULT_DEBUG_MODE = "False"
 DEFAULT_ERROR_EMPTY_QUERY = "Search query cannot be empty"
 DEFAULT_ERROR_AZURE_FAILED = "Azure index search failed."
@@ -15,22 +18,28 @@ DEFAULT_ERROR_FINESSE_DATA_FAILED = "finesse-data static search failed"
 DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 DEFAULT_FUZZY_MATCH_THRESHOLD = 90
 DEFAULT_ERROR_AILAB_FAILED = "Ailab-db search failed."
-DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 DEFAULT_SANITIZE_PATTERN = (
     "[^\w \d\"#\$%&'\(\)\*\+,-\.\/:;?@\^_`{\|}~]+|\%\w+|;|/|\(|\)"
 )
 DEFAULT_HIGHLIGHT_FIELDS = "content"
 DEFAULT_HIGHLIGHT_TAG = "strong"
 
+
 @dataclass
 class Config:
     AZURE_CONFIG = AzureIndexSearchConfig(
         client=SearchClient(
-            os.getenv("FINESSE_BACKEND_AZURE_SEARCH_ENDPOINT"),
-            os.getenv("FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME"),
-            AzureKeyCredential(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY")),
+            os.getenv("FINESSE_BACKEND_AZURE_SEARCH_ENDPOINT", AZURE_SEARCH_ENDPOINT),
+            os.getenv(
+                "FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME", AZURE_SEARCH_INDEX_NAME
+            ),
+            AzureKeyCredential(
+                os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY", AZURE_SEARCH_API_KEY)
+            ),
         ),
-        highlight_fields=os.getenv("FINESSE_BACKEND_HIGHLIGHT_FIELDS", DEFAULT_HIGHLIGHT_FIELDS),
+        highlight_fields=os.getenv(
+            "FINESSE_BACKEND_HIGHLIGHT_FIELDS", DEFAULT_HIGHLIGHT_FIELDS
+        ),
         highlight_tag=os.getenv("FINESSE_BACKEND_HIGHLIGHT_TAG", DEFAULT_HIGHLIGHT_TAG),
     )
     FINESSE_DATA_URL = os.getenv("FINESSE_BACKEND_STATIC_FILE_URL")
