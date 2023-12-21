@@ -9,12 +9,13 @@ def create_app(config: Config):
     CORS(app)
     app.config.from_object(config)
 
-    from .blueprints.monitor import monitor_blueprint
-    from .blueprints.search import search_blueprint
+    from .api import v1, v2
 
     app.register_blueprint(
-        monitor_blueprint, url_prefix="/health", strict_slashes=False
+        v1.get_blueprint(), url_prefix=f"/api/v{v1.VERSION}", strict_slashes=False
     )
-    app.register_blueprint(search_blueprint, url_prefix="/search", strict_slashes=False)
+    app.register_blueprint(
+        v2.get_blueprint(), url_prefix=f"/api/v{v2.VERSION}", strict_slashes=False
+    )
 
     return app
