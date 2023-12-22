@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 
 import requests
 
-from app.finesse_data import (
+from app.api.common.finesse_data import (
     EmptyQueryError,
     FinesseDataFetchException,
     fetch_data,
@@ -26,18 +26,18 @@ class TestFetchData(unittest.TestCase):
             "Product Catalog",
         ]
 
-    @patch("app.finesse_data.requests.get")
+    @patch("app.api.common.finesse_data.requests.get")
     def test_fetch_data_empty_query(self, mock_get):
         with self.assertRaises(EmptyQueryError):
             fetch_data(self.finesse_data_url, "", self.match_threshold)
 
-    @patch("app.finesse_data.requests.get")
+    @patch("app.api.common.finesse_data.requests.get")
     def test_fetch_data_no_match_found(self, mock_get):
         mock_get.return_value = Mock(status_code=200, json=lambda: self.files)
         result = fetch_data(self.finesse_data_url, "bad query", self.match_threshold)
         self.assertIsNone(result)
 
-    @patch("app.finesse_data.requests.get")
+    @patch("app.api.common.finesse_data.requests.get")
     def test_fetch_data_success(self, mock_get):
         mock_get.side_effect = [
             Mock(status_code=200, json=lambda: self.files),
@@ -46,7 +46,7 @@ class TestFetchData(unittest.TestCase):
         result = fetch_data(self.finesse_data_url, "file1", self.match_threshold)
         self.assertEqual(result, {"data": "content"})
 
-    @patch("app.finesse_data.requests.get")
+    @patch("app.api.common.finesse_data.requests.get")
     def test_fetch_data_request_exception(self, mock_get):
         mock_get.side_effect = requests.RequestException()
         with self.assertRaises(FinesseDataFetchException):

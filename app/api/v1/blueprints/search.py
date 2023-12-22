@@ -3,8 +3,8 @@ from functools import wraps
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchQueryError, search
 
-from app.ailab_db import DBError, ailab_db_search
-from app.finesse_data import FinesseDataFetchException, fetch_data
+from app.api.common.ailab_db import DBError, ailab_db_search
+from app.api.common.finesse_data import FinesseDataFetchException, fetch_data
 from app.utils import sanitize
 
 search_blueprint = Blueprint("finesse", __name__)
