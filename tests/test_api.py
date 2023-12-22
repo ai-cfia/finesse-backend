@@ -15,6 +15,7 @@ class TestApiV1(unittest.TestCase):
         self.azure_search_url = "/api/v1/search/azure"
         self.ailab_search_url = "/api/v1/search/ailab"
         self.health_check_url = "/api/v1/health"
+        self.version_url = "/api/v1/version"
 
     ### Static ###
     def test_search_static_success(self):
@@ -96,3 +97,19 @@ class TestApiV1(unittest.TestCase):
         response = self.client.get(self.health_check_url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data.decode(), "ok")
+
+    ### Version ###
+    def test_version_route(self):
+        response = self.client.get(self.version_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertDictEqual(
+            response.json,
+            {
+                "version": {
+                    "deprecated": False,
+                    "full": "1",
+                    "release_date": "2023-12",
+                    "supported_until": None,
+                }
+            },
+        )

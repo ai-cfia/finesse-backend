@@ -12,10 +12,10 @@ def create_app(config: Config):
     from .api import v1, v2
 
     app.register_blueprint(
-        v1.get_blueprint(), url_prefix=f"/api/v{v1.VERSION}", strict_slashes=False
+        v1.get_blueprint(), url_prefix=f"/api/v{v1.VERSION.full}", strict_slashes=False
     )
     app.register_blueprint(
-        v2.get_blueprint(), url_prefix=f"/api/v{v2.VERSION}", strict_slashes=False
+        v2.get_blueprint(), url_prefix=f"/api/v{v2.VERSION.full}", strict_slashes=False
     )
 
     return app
