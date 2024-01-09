@@ -11,10 +11,11 @@ def create_app(config: Config):
 
     from .blueprints.monitor import monitor_blueprint
     from .blueprints.search import search_blueprint
+    from .blueprints.swagger import swagger_blueprint
 
     app.register_blueprint(
         monitor_blueprint, url_prefix="/health", strict_slashes=False
     )
     app.register_blueprint(search_blueprint, url_prefix="/search", strict_slashes=False)
-
+    app.register_blueprint(swagger_blueprint, url_prefix="/api/docs")
     return app
