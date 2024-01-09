@@ -1,24 +1,54 @@
-## Running and testing the API
+# Running and testing the API locally
+
+## With your local environment
+
 Create and set the environment variables based on `.env.template`.
 
 Running:
 
-```
+```bash
 flask run -h 0.0.0.0 --debug
 ```
 
 Alternatively, set the `FINESSE_BACKEND_DEBUG_MODE` environment variable to 
-`True` and 
-run:
-```
+`True` and run:
+
+```bash
 python run.py
 ```
 
-Query from the command-line:
+## With docker
 
+Build the container:
+
+```bash
+docker build -t finesse-backend .
 ```
-curl -X POST http://localhost:5000/search --data '{"query": "is e.coli a virus 
-or bacteria?"}' -H "Content-Type: application/json"
+
+Deploy the container locally:
+
+```bash
+docker run -p 5000:5000 -e PORT=$PORT --env-file .env finesse-backend
+```
+
+## Check if the API is working properly
+
+Test the path: `/search/static`
+
+```bash
+curl -X POST http://localhost:5000/search/static --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
+```
+
+Test the path: `/search/azure`
+
+```bash
+curl -X POST http://localhost:5000/search/azure --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
+```
+
+Test the path: `/search/ailab`
+
+```bash
+curl -X POST http://localhost:5000/search/ailab --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
 ```
 
 JSON structure explanation:
