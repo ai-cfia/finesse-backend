@@ -1,18 +1,6 @@
 # Deployment
 
-## Azure
-Create and set the environment variables based on `.env.template`. Make sure 
+Note on the container: Create and set the environment variables based on `.env.template`. Make sure 
 `FINESSE_BACKEND_DEBUG_MODE` is NOT set to `True` in PRODUCTION builds.
 
-Build (do this from your WSL Ubuntu where Docker is already installed):
-
-```
-docker build -t finesse-backend .
-```
-
-test locally:
-
-```
-export PORT=<your_port_here>
-docker run -p $PORT:$PORT -e PORT=$PORT --env-file .env finesse-backend
-```
+Refer to the [infrastructure repository](https://github.com/ai-cfia/infra) for a Kubernetes deployment. The secrets (in this case environment variables) are managed with Hashicorp Vault.
