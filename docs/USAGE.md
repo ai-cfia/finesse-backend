@@ -2,7 +2,7 @@
 
 ## With your local environment
 
-Create and set the environment variables based on `.env.template`.
+Create and set the environment variables based on `.env.template`. You will need to create a `.env` file.
 
 Running:
 
@@ -18,6 +18,8 @@ python run.py
 ```
 
 ## With docker
+
+Create and set the environment variables based on `.env.template`. You will need to create a `.env` file.
 
 Build the container:
 
