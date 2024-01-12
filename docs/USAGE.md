@@ -4,7 +4,7 @@
 
 Create and set the environment variables based on `.env.template`. You will need to create a `.env` file.
 
-Running:
+### Running:
 
 ```bash
 flask run -h 0.0.0.0 --debug
