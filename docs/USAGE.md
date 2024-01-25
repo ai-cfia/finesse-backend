@@ -2,15 +2,16 @@
 
 ## With your local environment
 
-Create and set the environment variables based on `.env.template`. You will need to create a `.env` file.
+Create and set the environment variables based on `.env.template`. You will need
+to create a `.env` file.
 
-### Running:
+### Running
 
 ```bash
 flask run -h 0.0.0.0 --debug
 ```
 
-Alternatively, set the `FINESSE_BACKEND_DEBUG_MODE` environment variable to 
+Alternatively, set the `FINESSE_BACKEND_DEBUG_MODE` environment variable to
 `True` and run:
 
 ```bash
@@ -19,7 +20,8 @@ python run.py
 
 ## With docker
 
-Create and set the environment variables based on `.env.template`. You will need to create a `.env` file.
+Create and set the environment variables based on `.env.template`. You will need
+to create a `.env` file.
 
 Build the container:
 
