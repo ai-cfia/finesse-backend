@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch
 
 from app.app_creator import create_app
-from app.blueprints.search import AzureIndexSearchQueryError
+from app.blueprints.search import AzureIndexSearchError
 from tests.common import TestConfig
 
 
@@ -25,6 +25,6 @@ class TestAzureSearch(unittest.TestCase):
 
     def test_search_azure_error(self):
         with patch("app.blueprints.search.search") as mock_search:
-            mock_search.side_effect = AzureIndexSearchQueryError("Azure search failed")
+            mock_search.side_effect = AzureIndexSearchError("Azure search failed")
             response = self.client.post("/search/azure", json={"query": "azure query"})
             self.assertEqual(response.status_code, 500)

@@ -1,7 +1,7 @@
 import logging
 
 from flask import Blueprint, current_app, jsonify, request
-from index_search import AzureIndexSearchQueryError, search
+from index_search import AzureIndexSearchError, search
 
 from app.ailab_db import DBError, ailab_db_search
 from app.blueprints.common import create_error_response
@@ -15,7 +15,7 @@ class EmptyQueryError(Exception):
     """Raised when the search query is empty."""
 
 
-@search_blueprint.errorhandler(AzureIndexSearchQueryError)
+@search_blueprint.errorhandler(AzureIndexSearchError)
 def handle_azure_error(error):
     message = current_app.config["ERROR_AZURE_FAILED"]
     return create_error_response(error, message, 500)
