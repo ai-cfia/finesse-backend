@@ -1,6 +1,6 @@
-name: Workflows
+name: python-backend-workflows
 
-on: 
+on:
   pull_request:
     types:
       - opened
