@@ -1,4 +1,4 @@
-name: python-backend-workflows
+name: Python backend workflows
 
 on:
   pull_request:
