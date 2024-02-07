@@ -56,10 +56,10 @@ def get_non_empty_query():
 
 @search_blueprint.route("/azure", methods=["POST"])
 def search_azure():
-    query = get_non_empty_query()
-    skip = 0
-    top = 10
     config = current_app.config
+    skip = request.args.get("skip", default=config["AZURE_SEARCH_SKIP"], type=int)
+    top = request.args.get("top", default=config["AZURE_SEARCH_TOP"], type=int)
+    query = get_non_empty_query()
     search_params = {"skip": skip, "top": top}
     search_params.update(config["AZURE_SEARCH_PARAMS"])
     client = config["AZURE_SEARCH_CLIENT"]
