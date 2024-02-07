@@ -57,7 +57,14 @@ def get_non_empty_query():
 @search_blueprint.route("/azure", methods=["POST"])
 def search_azure():
     query = get_non_empty_query()
-    results = search(query, current_app.config["AZURE_CONFIG"])
+    skip = 0
+    top = 10
+    config = current_app.config
+    search_params = {"skip": skip, "top": top}
+    search_params.update(config["AZURE_SEARCH_PARAMS"])
+    client = config["AZURE_SEARCH_CLIENT"]
+    transform_map = config["AZURE_SEARCH_TRANSFORM_MAP"]
+    results = search(query, client, search_params, transform_map)
     return jsonify(results)
 
 

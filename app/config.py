@@ -1,10 +1,9 @@
 import os
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from dotenv import load_dotenv
-from index_search import AzureIndexSearchConfig
 
 load_dotenv()
 
@@ -27,20 +26,29 @@ DEFAULT_HIGHLIGHT_TAG = "strong"
 
 @dataclass
 class Config:
-    AZURE_CONFIG = AzureIndexSearchConfig(
-        client=SearchClient(
-            os.getenv("FINESSE_BACKEND_AZURE_SEARCH_ENDPOINT", AZURE_SEARCH_ENDPOINT),
-            os.getenv(
-                "FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME", AZURE_SEARCH_INDEX_NAME
-            ),
-            AzureKeyCredential(
-                os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY", AZURE_SEARCH_API_KEY)
-            ),
+    AZURE_SEARCH_CLIENT = SearchClient(
+        os.getenv("FINESSE_BACKEND_AZURE_SEARCH_ENDPOINT", AZURE_SEARCH_ENDPOINT),
+        os.getenv("FINESSE_BACKEND_AZURE_SEARCH_INDEX_NAME", AZURE_SEARCH_INDEX_NAME),
+        AzureKeyCredential(
+            os.getenv("FINESSE_BACKEND_AZURE_SEARCH_API_KEY", AZURE_SEARCH_API_KEY)
         ),
-        highlight_fields=os.getenv(
-            "FINESSE_BACKEND_HIGHLIGHT_FIELDS", DEFAULT_HIGHLIGHT_FIELDS
-        ),
-        highlight_tag=os.getenv("FINESSE_BACKEND_HIGHLIGHT_TAG", DEFAULT_HIGHLIGHT_TAG),
+    )
+    AZURE_SEARCH_PARAMS: dict = field(
+        default_factory=lambda: {
+            "highlight_fields": "content",
+            "highlight_pre_tag": "<em>",
+            "highlight_post_tag": "</em>",
+        }
+    )
+    AZURE_SEARCH_TRANSFORM_MAP: dict = field(
+        default_factory=lambda: {
+            "id": "/id",
+            "title": "/title",
+            "score": "/@search.score",
+            "url": "/url",
+            "content": "/@search.highlights/content/0",
+            "last_updated": "/last_updated",
+        }
     )
     FINESSE_DATA_URL = os.getenv("FINESSE_BACKEND_STATIC_FILE_URL")
     DEBUG = (
