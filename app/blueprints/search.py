@@ -60,8 +60,7 @@ def search_azure():
     skip = request.args.get("skip", default=config["AZURE_SEARCH_SKIP"], type=int)
     top = request.args.get("top", default=config["AZURE_SEARCH_TOP"], type=int)
     query = get_non_empty_query()
-    search_params = {"skip": skip, "top": top}
-    search_params.update(config["AZURE_SEARCH_PARAMS"])
+    search_params = {**config["AZURE_SEARCH_PARAMS"], "skip": skip, "top": top}
     client = config["AZURE_SEARCH_CLIENT"]
     transform_map = config["AZURE_SEARCH_TRANSFORM_MAP"]
     results = search(query, client, search_params, transform_map)

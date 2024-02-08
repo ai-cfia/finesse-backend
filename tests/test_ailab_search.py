@@ -3,12 +3,25 @@ from unittest.mock import patch
 
 from app.ailab_db import DBError
 from app.app_creator import create_app
-from tests.common import TestConfig
+from app.config import (
+    DEFAULT_ERROR_AILAB_FAILED,
+    DEFAULT_ERROR_EMPTY_QUERY,
+    DEFAULT_ERROR_UNEXPECTED,
+    DEFAULT_SANITIZE_PATTERN,
+    Config,
+)
 
 
 class TestAilabSearch(unittest.TestCase):
     def setUp(self):
-        self.config = TestConfig()
+        self.config: Config = {
+            "DEBUG": True,
+            "TESTING": True,
+            "SANITIZE_PATTERN": DEFAULT_SANITIZE_PATTERN,
+            "ERROR_AILAB_FAILED": DEFAULT_ERROR_AILAB_FAILED,
+            "ERROR_UNEXPECTED": DEFAULT_ERROR_UNEXPECTED,
+            "ERROR_EMPTY_QUERY": DEFAULT_ERROR_EMPTY_QUERY,
+        }
         self.app = create_app(self.config)
         self.client = self.app.test_client()
 

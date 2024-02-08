@@ -1,13 +1,11 @@
 import unittest
 
 from app.app_creator import create_app
-from tests.common import TestConfig
 
 
 class TestMonitor(unittest.TestCase):
     def setUp(self):
-        self.config = TestConfig()
-        self.app = create_app(self.config)
+        self.app = create_app({})
         self.client = self.app.test_client()
 
     def test_health_route(self):
