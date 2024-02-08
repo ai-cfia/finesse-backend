@@ -1,5 +1,4 @@
 from .app_creator import create_app
-from .config import Config
+from .config import create_config
 
-configuration = Config()
-app = create_app(configuration)
+app = create_app(create_config())
