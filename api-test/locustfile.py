@@ -2,6 +2,7 @@ import requests
 from locust import HttpUser, task, events
 from jsonreader import JSONReader
 import os
+import json
 
 def is_host_up(host_url: str) -> bool:
     health_check_endpoint = f"{host_url}/health"
@@ -37,10 +38,16 @@ class FinesseUser(HttpUser):
 
         question = question_data.get("question")
         expected_page_title = question_data.get("title")
-        search_endpoint = f"{self.host}/search/{self.engine}"
-        response = self.client.get(search_endpoint, params={"query": question})
+
+        search_url = f"{self.host}/search/{self.engine}"
+        data = {'query': f'{question}'}
+
+        # Headers
+        headers = {'Content-Type': 'application/json'}
+
+        response = self.client.post(search_url, params={"query": question}, data=json.dumps(data), headers=headers)
         if response.status_code == 200:
-            response_pages = response.text
+            response_pages = response.json()
             print(response_pages)
 
             #accuracy = self.calculate_accuracy(response, expected_page_title)
