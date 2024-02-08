@@ -114,8 +114,8 @@ to understand and use.
     - `--format [file type]`:
       - `csv`: generate a CSV document
       - `md`: generate a Markdown document, selected by default
-- **Recursive**
-  - Search in all the folders in the directory to retrieve the JSON files
+- **Many tests**
+  - Search all the JSON files in the directory
 - **Accuracy score**
   - The tool compares the expected page with the actual Finesse response pages.
   - Calculates an accuracy score for each response based on its position in the
