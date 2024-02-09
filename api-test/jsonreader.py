@@ -11,6 +11,7 @@ class JSONReader(Iterator):
         if not self.file_list:
             raise FileNotFoundError(f"No JSON files found in the directory '{directory}'")
         self.current_file_index = 0
+        self.file_name = None  # Initialize file_name attribute
 
     def __iter__(self):
         return self
@@ -20,11 +21,13 @@ class JSONReader(Iterator):
             raise StopIteration
 
         file_path = os.path.join(self.directory, self.file_list[self.current_file_index])
+        self.file_name = self.file_list[self.current_file_index]  # Update file_name attribute
 
         with open(file_path, 'r') as f:
             data = json.load(f)
             self.current_file_index += 1
             return data
+
 
 
 class JSONDictReader(Iterator[Dict]):
@@ -44,4 +47,3 @@ class JSONDictReader(Iterator[Dict]):
             return data
         else:
             raise ValueError("Invalid JSON format")
-
