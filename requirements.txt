@@ -8,3 +8,4 @@ fuzzywuzzy
 python-Levenshtein
 git+https://github.com/ai-cfia/ailab-db@main
 locust
+locust-plugins[dashboards]

@@ -90,7 +90,7 @@ class FinesseUser(HttpUser):
         for key, value in self.qna_results.items():
             print("File:", key)
             print("Question:", value.get("question"))
-            print(f'Accuracy Score: {value.get("accuracy")}%')
+            print(f'Accuracy Score: {value.get("accuracy")*100}%')
             print(f'Time: {value.get("time")}ms')
             print()
 
