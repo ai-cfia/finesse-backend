@@ -2,20 +2,23 @@ import json
 import os
 from typing import TypedDict
 
-import app.constants as constants
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from dotenv import load_dotenv
+
+import app.constants as constants
 
 load_dotenv()
 
 
 class Config(TypedDict):
-    AZURE_SEARCH_SKIP: int
-    AZURE_SEARCH_TOP: int
     AZURE_SEARCH_CLIENT: SearchClient
+    DEFAULT_AZURE_SEARCH_SKIP: int
+    DEFAULT_AZURE_SEARCH_TOP: int
     AZURE_SEARCH_PARAMS: dict
     AZURE_SEARCH_TRANSFORM_MAP: dict
+    AZURE_SEMANTIC_CONFIGURATION_NAME: str
+    AZURE_QUERY_TYPE: str
     FINESSE_DATA_URL: str
     DEBUG: bool
     ERROR_EMPTY_QUERY: str
@@ -45,8 +48,8 @@ def create_config() -> Config:
     )
 
     return {
-        "AZURE_SEARCH_SKIP": constants.DEFAULT_AZURE_SEARCH_SKIP,
-        "AZURE_SEARCH_TOP": constants.DEFAULT_AZURE_SEARCH_TOP,
+        "DEFAULT_AZURE_SEARCH_SKIP": constants.DEFAULT_AZURE_SEARCH_SKIP,
+        "DEFAULT_AZURE_SEARCH_TOP": constants.DEFAULT_AZURE_SEARCH_TOP,
         "AZURE_SEARCH_CLIENT": azure_search_client,
         "AZURE_SEARCH_PARAMS": azure_search_params,
         "AZURE_SEARCH_TRANSFORM_MAP": azure_search_transform_map,

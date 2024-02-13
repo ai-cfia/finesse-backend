@@ -21,8 +21,8 @@ class TestAzureSearch(unittest.TestCase):
         self.config: Config = {
             "DEBUG": True,
             "TESTING": True,
-            "AZURE_SEARCH_SKIP": DEFAULT_AZURE_SEARCH_SKIP,
-            "AZURE_SEARCH_TOP": DEFAULT_AZURE_SEARCH_TOP,
+            "DEFAULT_AZURE_SEARCH_SKIP": DEFAULT_AZURE_SEARCH_SKIP,
+            "DEFAULT_AZURE_SEARCH_TOP": DEFAULT_AZURE_SEARCH_TOP,
             "AZURE_SEARCH_PARAMS": DEFAULT_AZURE_SEARCH_PARAMS,
             "AZURE_SEARCH_CLIENT": Mock(),
             "SANITIZE_PATTERN": DEFAULT_SANITIZE_PATTERN,
@@ -64,8 +64,8 @@ class TestAzureSearch(unittest.TestCase):
                 "default azure query",
                 self.config["AZURE_SEARCH_CLIENT"],
                 {
-                    "skip": self.config["AZURE_SEARCH_SKIP"],
-                    "top": self.config["AZURE_SEARCH_TOP"],
+                    "skip": self.config["DEFAULT_AZURE_SEARCH_SKIP"],
+                    "top": self.config["DEFAULT_AZURE_SEARCH_TOP"],
                     **self.config["AZURE_SEARCH_PARAMS"],
                 },
                 self.config["AZURE_SEARCH_TRANSFORM_MAP"],
