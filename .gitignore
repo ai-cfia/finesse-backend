@@ -8,6 +8,8 @@ venv/
 # Ignore IDE and editor-specific files (customize this based on your editor or IDE)
 .idea/
 
+.DS_Store
+
 # Ignore environment-specific files
 .env
 

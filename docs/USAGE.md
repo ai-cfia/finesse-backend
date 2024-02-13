@@ -37,25 +37,28 @@ docker run -p 5000:5000 -e PORT=$PORT --env-file .env finesse-backend
 
 ## Check if the API is working properly
 
-Test the path: `/search/static`
+### Test the path: `/search/static`
 
 ```bash
 curl -X POST http://localhost:5000/search/static --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
 ```
 
-Test the path: `/search/azure`
+### Test the path: `/search/azure`
 
 ```bash
-curl -X POST http://localhost:5000/search/azure --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
+curl -X POST "http://localhost:5000/search/azure?top=10&skip=0" --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
 ```
 
-Test the path: `/search/ailab`
+- `top` (optional): Number of search results to return.
+- `skip` (optional): Number of search results to skip from the start.
+
+### Test the path: `/search/ailab`
 
 ```bash
 curl -X POST http://localhost:5000/search/ailab --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
 ```
 
-JSON structure explanation:
+### JSON structure explanation
 
 - id: The unique identifier for each document.
 - url: The URL of the document, which should point to inspection.canada.ca.

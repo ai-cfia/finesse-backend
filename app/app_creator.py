@@ -5,7 +5,7 @@ from flask_cors import CORS
 def create_app(config):
     app = Flask(__name__)
     CORS(app)
-    app.config.from_object(config)
+    app.config.update(config)
 
     from .blueprints.monitor import monitor_blueprint
     from .blueprints.search import search_blueprint

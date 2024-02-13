@@ -3,12 +3,25 @@ from unittest.mock import patch
 
 from app.ailab_db import DBError
 from app.app_creator import create_app
-from tests.common import TestConfig
+from app.config import Config
+from app.constants import (
+    DEFAULT_ERROR_AILAB_FAILED,
+    DEFAULT_ERROR_EMPTY_QUERY,
+    DEFAULT_ERROR_UNEXPECTED,
+    DEFAULT_SANITIZE_PATTERN,
+)
 
 
 class TestAilabSearch(unittest.TestCase):
     def setUp(self):
-        self.config = TestConfig()
+        self.config: Config = {
+            "DEBUG": True,
+            "TESTING": True,
+            "SANITIZE_PATTERN": DEFAULT_SANITIZE_PATTERN,
+            "ERROR_AILAB_FAILED": DEFAULT_ERROR_AILAB_FAILED,
+            "ERROR_UNEXPECTED": DEFAULT_ERROR_UNEXPECTED,
+            "ERROR_EMPTY_QUERY": DEFAULT_ERROR_EMPTY_QUERY,
+        }
         self.app = create_app(self.config)
         self.client = self.app.test_client()
 
@@ -30,6 +43,10 @@ class TestAilabSearch(unittest.TestCase):
             self.assertEqual(response.status_code, 500)
 
     def test_search_ailab_unexpected_error(self):
+        with patch("app.blueprints.search.ailab_db_search") as mock_search:
+            mock_search.side_effect = Exception("Unexpected error")
+            response = self.client.post("/search/ailab", json={"query": "ailab query"})
+            self.assertEqual(response.status_code, 500)
         with patch("app.blueprints.search.ailab_db_search") as mock_search:
             mock_search.side_effect = Exception("Unexpected error")
             response = self.client.post("/search/ailab", json={"query": "ailab query"})
