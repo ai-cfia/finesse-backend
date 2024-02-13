@@ -3,7 +3,7 @@ flask
 flask-cors
 gunicorn
 python-dotenv
-git+https://github.com/ai-cfia/azure-db.git@k-allagbe/issue16-pagination#subdirectory=azure-ai-search
+git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy
 python-Levenshtein
 git+https://github.com/ai-cfia/ailab-db@main

@@ -3,7 +3,7 @@ flask==3.0.0                    # Released: 2023-09-30
 flask-cors==4.0.0               # Released: 2023-06-26
 gunicorn==21.2.0                # Released: 2023-07-19
 python-dotenv==1.0.0            # Released: 2023-02-24
-git+https://github.com/ai-cfia/azure-db.git@k-allagbe/issue16-pagination#subdirectory=azure-ai-search
+git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy==0.18.0
 python-Levenshtein== 0.23.0
 git+https://github.com/ai-cfia/ailab-db@main
