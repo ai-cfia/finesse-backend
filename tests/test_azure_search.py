@@ -3,7 +3,8 @@ from unittest.mock import Mock, patch
 
 from app.app_creator import create_app
 from app.blueprints.search import AzureIndexSearchError
-from app.config import (
+from app.config import Config
+from app.constants import (
     DEFAULT_AZURE_SEARCH_PARAMS,
     DEFAULT_AZURE_SEARCH_SKIP,
     DEFAULT_AZURE_SEARCH_TOP,
@@ -12,7 +13,6 @@ from app.config import (
     DEFAULT_ERROR_EMPTY_QUERY,
     DEFAULT_ERROR_UNEXPECTED,
     DEFAULT_SANITIZE_PATTERN,
-    Config,
 )
 
 
