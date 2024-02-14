@@ -80,3 +80,44 @@ class TestAzureSearch(unittest.TestCase):
             mock_search.side_effect = AzureIndexSearchError("Azure search failed")
             response = self.client.post("/search/azure", json={"query": "azure query"})
             self.assertEqual(response.status_code, 500)
+
+    def test_search_azure_with_semantic_params(self):
+        """Test search with semantic search parameters."""
+        finesse_backend_azure_search_params = {
+            "highlight_fields": "content",
+            "highlight_pre_tag": "<strong>",
+            "highlight_post_tag": "</strong>",
+            "query_type": "semantic",
+            "semantic_configuration_name": "Semantic-config-public-guidance-docs",
+        }
+
+        # Temporarily update AZURE_SEARCH_PARAMS for this test
+        original_azure_search_params = self.config["AZURE_SEARCH_PARAMS"]
+        self.config["AZURE_SEARCH_PARAMS"].update(finesse_backend_azure_search_params)
+
+        with patch("app.blueprints.search.search") as mock_search:
+            mock_search.return_value = {"some": "semantic azure data"}
+            response = self.client.post(
+                "/search/azure", json={"query": "semantic azure query"}
+            )
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(response.json, {"some": "semantic azure data"})
+            mock_search.assert_called_with(
+                "semantic azure query",
+                self.config["AZURE_SEARCH_CLIENT"],
+                {
+                    "skip": self.config["DEFAULT_AZURE_SEARCH_SKIP"],
+                    "top": self.config["DEFAULT_AZURE_SEARCH_TOP"],
+                    **self.config["AZURE_SEARCH_PARAMS"],
+                },
+                self.config["AZURE_SEARCH_TRANSFORM_MAP"],
+            )
+
+        expected_params = finesse_backend_azure_search_params
+        actual_params = mock_search.call_args[0][2]
+        for key in expected_params.keys():
+            self.assertIn(key, actual_params)
+            self.assertEqual(actual_params[key], expected_params[key])
+
+        # Reset AZURE_SEARCH_PARAMS to original after test to avoid side effects
+        self.config["AZURE_SEARCH_PARAMS"] = original_azure_search_params
