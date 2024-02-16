@@ -13,43 +13,22 @@ researching tools, if they are scalable and well adapted with Python.
 
 ### Decision
 
-The most promising tool we found was [**Locust**](https://github.com/locustio).
-It seamlessly integrates with Python, making it a natural choice due to its
-dependency availability. It offers several advantages, as outlined below.
-However, **we decided to not use it** as its primary use case is to conduct
-tests with identical repeatable requests involving simultaneous users or
-machines and endpoints. Our specific testing requirements involve conducting
-multiple tests with different headers each time, which deviates from the tool's
-primary purpose of repeating the same test multiple times while adjusting user
-load. Too much modification and work would be necessary to adapt our test
-utility to Locust. Nevertheless, there is potential for future use where stress
-and load testing involving repeated searches may be integrated.
+We've opted for Locust as our tool of choice. It's seamlessly compatible with
+Python, making it a natural fit due to its easy integration. Locust is an
+open-source load testing framework written in Python, designed to simulate
+numerous machines sending requests to a given system. It provides detailed
+insights into the system's performance and scalability. With its built-in UI and
+straightforward integration with Python scripts, Locust is user-friendly and
+accessible. It is popular and open source, with support from major tech
+companies such as Microsoft and Google
+
+However, Locust's primary purpose is to conduct ongoing tests involving multiple
+machines and endpoints simultaneously. Our specific requirement involves running
+the accuracy test just once. Nevertheless, there's potential for future
+integration, especially for stress and load testing scenarios that involve
+repeated searches.
 
 ### Alternatives Considered
-
-#### Locust
-
-Locust is an open-source load testing framework in Python, allowing simulation
-of many concurrent users making requests to a given system, and
-providing detailed results on the performance and scalability of that system.
-
-Pros
-
-- Python dependency
-- Built-in UI
-- Easy integration with test scripts.
-- Incorporate statistics, including median response time and request error
-  percentage
-- Locust's versatility allows it to test any tool by allowing custom tests
-- Locust is popular and open source, with support from major tech companies such
-as Microsoft and Google
-- Issues are actively managed on its GitHub repository
-- Scalable, enabling easy testing of multiple scenarios with simultaneous users
-or machines and endpoints
-
-Cons
-
-- Designed for scalability and to repeatable requests
 
 #### Apache Bench (ab)
 
@@ -99,8 +78,9 @@ to understand and use.
       - `ai-lab` : AI-Lab search engine
       - `azure`: Azure search engine
       - `static`: Static search engine
+      - `llamaindex`: LlamaIndex search engine
     - `--path [directory path]`: Point to the directory with files structured
-    - `--backend [base API URL]`: Point to the finesse-backend URL
+    - `--host [API URL]`: Point to the finesse-backend URL
       with JSON files with the following properties:
       - `score`: The score of the page.
       - `crawl_id`: The unique identifier associated with the crawl table.
@@ -114,8 +94,9 @@ to understand and use.
     - `--format [file type]`:
       - `csv`: generate a CSV document
       - `md`: generate a Markdown document, selected by default
+    - `--once`: go through all the json files and does not repeat
 - **Many tests**
-  - Search all the JSON files in the directory
+  - Test all the JSON files in the path directory
 - **Accuracy score**
   - The tool compares the expected page with the actual Finesse response pages.
   - Calculates an accuracy score for each response based on its position in the
@@ -125,7 +106,7 @@ to understand and use.
 - **Round trip time**
   - Measure round trip time of each request
 - **Summary statistical value**
-  - Measure the average, minimum and maximal accuracy scores and round trip time
+  - Measure the average, median, minimum and maximal accuracy scores and round trip time
 
 ## Diagram
 
@@ -134,26 +115,30 @@ to understand and use.
 ## Example Command
 
 ```cmd
-$finesse-test --engine azure --path "/qna-tests" -H "https://127.0.0.1"
+$locust --engine azure --path api-test/QnA/good_question --host https://finesse-guidance.ninebasetwo.xyz/api --once
 Searching with Azure Search...
 
-File: "qna_2023-12-08_15"
-Question: "Quels sont les numéros de téléphone pour les demandes de r
-enseignements du public?"
-Accuracy Score: 70%
-Time: 875ms
+File: qna_2023-12-08_36.json
+Question: Quelle est la zone réglementée dans la ville de Vancouver à partir du 19 mars 2022?
+Expected URL: https://inspection.canada.ca/protection-des-vegetaux/especes-envahissantes/directives/date/d-96-15/fra/1323854808025/1323854941807
+Accuracy Score: 50.0%
+Time: 277.836ms
 
-File: "qna_2023-12-08_17"
-Question: "Quels sont les contacts pour les demandes de renseignements du public?"
-Accuracy Score: 80%
-Time: 786ms
+File: qna_2023-12-08_19.json
+Question: What are the requirements for inspections of fishing vessels?
+Expected URL: https://inspection.canada.ca/importing-food-plants-or-animals/food-imports/foreign-systems/audits/report-of-a-virtual-assessment-of-spain/eng/1661449231959/1661449232916
+Accuracy Score: 0.0%
+Time: 677.906ms
+
+...
 
 ---
-Tested files: 2
-Approximate round trip times in milli-seconds:
-  Minimum = 786, Maximum = 875, Average = 831ms
-Approximate Finesse Accuracy Score:
-  Minimum = 70%, Maximum = 80%, Average = 75%
+Tested on 21 files.
+Time statistical summary:
+  Mean:429.0285238095238, Median:399.857, Maximum:889.38, Minimum:207.972
+Accuracy statistical summary:
+  Mean:0.3523809523809524, Median:0.0, Maximum:1.0, Minimum:0.0
+---
 ```
 
 This example shows how the CLI Output of the tool, analyzing search results from

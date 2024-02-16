@@ -38,4 +38,7 @@ keys/
 flask_session/
 
 # Ignore local QnA json files
-api-test/QnA
+QnA
+
+# Ignore output of api-test
+api-test/output
