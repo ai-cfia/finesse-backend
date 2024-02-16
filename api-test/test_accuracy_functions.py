@@ -1,5 +1,5 @@
 import unittest
-from accuracy_functions import calculate_accuracy, save_to_markdown, save_to_csv
+from accuracy_functions import calculate_accuracy
 
 class TestFunctions(unittest.TestCase):
 
@@ -10,6 +10,6 @@ class TestFunctions(unittest.TestCase):
         self.assertEqual(result.position, 1)
         self.assertEqual(result.total_pages, 4)
         self.assertEqual(result.score, 0.75)
-    
+
 if __name__ == "__main__":
     unittest.main()
