@@ -1,4 +1,4 @@
-# Design of the Finesse Test Utility
+# Design of the Finesse Benchmark Tool
 
 ## Tools available
 
