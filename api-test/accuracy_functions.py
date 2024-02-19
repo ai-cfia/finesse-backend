@@ -8,15 +8,22 @@ OUTPUT_FOLDER = "./api-test/output"
 AccuracyResult = namedtuple("AccuracyResult", ["position", "total_pages", "score"])
 
 def calculate_accuracy(responses_url: list[str], expected_url: str) -> AccuracyResult:
-        position: int = 0
-        total_pages: int = len(responses_url)
-        score: float = 0.0
+    position: int = 0
+    total_pages: int = len(responses_url)
+    score: float = 0.0
+    expected_number = int(expected_url.split('/')[-1])
 
-        if expected_url in responses_url:
-            position = responses_url.index(expected_url)
-            score = 1 - (position / total_pages)
-
+    if expected_number == 0:
         return AccuracyResult(position, total_pages, score)
+
+    for idx, response_url in enumerate(responses_url):
+        response_number = int(response_url.split('/')[-1])
+        if response_number == expected_number:
+            position = idx + 1
+            score = 1 - (position / total_pages)
+            break
+
+    return AccuracyResult(position, total_pages, score)
 
 def save_to_markdown(test_data: dict, engine: str):
     if not os.path.exists(OUTPUT_FOLDER):
@@ -38,10 +45,10 @@ def save_to_markdown(test_data: dict, engine: str):
         md_file.write("## Statistical summary\n\n")
         md_file.write("| Statistic             | Time       | Accuracy score|\n")
         md_file.write("|-----------------------|------------|---------|\n")
-        md_file.write(f"|Mean| {time_stats.get('Mean')}ms | {accuracy_stats.get('Mean')}% |\n")
-        md_file.write(f"|Median| {time_stats.get('Median')}ms | {accuracy_stats.get('Median')}% |\n")
-        md_file.write(f"|Maximum| {time_stats.get('Maximum')}ms | {accuracy_stats.get('Maximum')}% |\n")
-        md_file.write(f"|Minimum| {time_stats.get('Minimum')}ms | {accuracy_stats.get('Minimum')}% |\n")
+        md_file.write(f"|Mean| {time_stats.get('Mean')}ms | {accuracy_stats.get('Mean')*100}% |\n")
+        md_file.write(f"|Median| {time_stats.get('Median')}ms | {accuracy_stats.get('Median')*100}% |\n")
+        md_file.write(f"|Maximum| {time_stats.get('Maximum')}ms | {accuracy_stats.get('Maximum')*100}% |\n")
+        md_file.write(f"|Minimum| {time_stats.get('Minimum')}ms | {accuracy_stats.get('Minimum')*100}% |\n")
 
 def save_to_csv(test_data: dict, engine: str):
     if not os.path.exists(OUTPUT_FOLDER):

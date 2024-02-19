@@ -42,14 +42,14 @@ class FinesseUser(HttpUser):
             search_url = f"{self.host}/search/{self.engine}"
             data = json.dumps({'query': f'{question}'})
             headers = { "Content-Type": "application/json" }
-            response_urls : list[str] = []
+            response_url : list[str] = []
 
             response = self.client.post(search_url, data=data, headers=headers)
             if response.status_code == 200:
                 response_pages = response.json()
                 for page in response_pages:
-                    response_urls.append(page.get("url"))
-                accuracy_result = calculate_accuracy(response_urls, expected_url)
+                    response_url.append(page.get("url"))
+                accuracy_result = calculate_accuracy(response_url, expected_url)
                 time_taken = response.elapsed.microseconds/1000
 
                 expected_page = json_data.copy()
