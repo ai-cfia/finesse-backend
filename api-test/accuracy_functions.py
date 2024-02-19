@@ -11,10 +11,10 @@ def calculate_accuracy(responses_url: list[str], expected_url: str) -> AccuracyR
     position: int = 0
     total_pages: int = len(responses_url)
     score: float = 0.0
-    expected_number = int(expected_url.split('/')[-1])
+    expected_number = int(expected_url.split('/')[-2])
 
     for idx, response_url in enumerate(responses_url):
-        response_number = int(response_url.split('/')[-1])
+        response_number = int(response_url.split('/')[-2])
         if response_number == expected_number:
             position = idx
             score = 1 - (position / total_pages)
