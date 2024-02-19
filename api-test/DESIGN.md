@@ -92,9 +92,10 @@ to understand and use.
       - `answer`: The response to the asked question.
   - Optional argument:
     - `--format [file type]`:
-      - `csv`: generate a CSV document
-      - `md`: generate a Markdown document, selected by default
-    - `--once`: go through all the json files and does not repeat
+      - `csv`: Generate a CSV document
+      - `md`: Generate a Markdown document, selected by default
+    - `--once`: Go through all the json files and does not repeat
+    - `--top`: Limit the number of results returned by the search engine
 - **Many tests**
   - Test all the JSON files in the path directory
 - **Accuracy score**

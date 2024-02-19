@@ -13,14 +13,11 @@ def calculate_accuracy(responses_url: list[str], expected_url: str) -> AccuracyR
     score: float = 0.0
     expected_number = int(expected_url.split('/')[-1])
 
-    if expected_number == 0:
-        return AccuracyResult(position, total_pages, score)
-
     for idx, response_url in enumerate(responses_url):
         response_number = int(response_url.split('/')[-1])
         if response_number == expected_number:
+            position = idx
             score = 1 - (position / total_pages)
-            position = idx + 1
             break
 
     return AccuracyResult(position, total_pages, score)
@@ -91,7 +88,7 @@ def log_data(test_data: dict):
         print(f"{key}:{value},", end=' ')
     print("\nAccuracy statistical summary:", end="\n  ")
     for key,value in accuracy_stats.items():
-        print(f"{key}:{value},", end=' ')
+        print(f"{key}:{value*100}%,", end=' ')
     print("\n---")
 
 

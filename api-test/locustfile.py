@@ -11,6 +11,7 @@ def _(parser):
     parser.add_argument("--path", type=str, required=True, help="Point to the directory with files structured")
     parser.add_argument("--format", type=str, choices=["csv", "md"], default="md", help="Generate a CSV or Markdown document")
     parser.add_argument("--once", action="store_true", default=False, help="Set this flag to make the accuracy test non-repeatable.")
+    parser.add_argument("--top", type=str, default = 100, help="Set this number to limit the number of results returned by the search engine.")
     args = parser.parse_args()
 
     if not os.path.isdir(args.path):
@@ -39,12 +40,12 @@ class FinesseUser(HttpUser):
             question = json_data.get("question")
             expected_url = json_data.get("url")
             file_name = self.qna_reader.file_name
-            search_url = f"{self.host}/search/{self.engine}"
+            response_url : list[str] = []
+            search_url = f"{self.host}/search/{self.engine}?top={self.top}"
             data = json.dumps({'query': f'{question}'})
             headers = { "Content-Type": "application/json" }
-            response_url : list[str] = []
-
             response = self.client.post(search_url, data=data, headers=headers)
+
             if response.status_code == 200:
                 response_pages = response.json()
                 for page in response_pages:
@@ -82,3 +83,4 @@ class FinesseUser(HttpUser):
         self.engine = self.environment.parsed_options.engine
         self.format = self.environment.parsed_options.format
         self.once = self.environment.parsed_options.once
+        self.top = self.environment.parsed_options.top
