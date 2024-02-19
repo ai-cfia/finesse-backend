@@ -19,8 +19,8 @@ def calculate_accuracy(responses_url: list[str], expected_url: str) -> AccuracyR
     for idx, response_url in enumerate(responses_url):
         response_number = int(response_url.split('/')[-1])
         if response_number == expected_number:
-            position = idx + 1
             score = 1 - (position / total_pages)
+            position = idx + 1
             break
 
     return AccuracyResult(position, total_pages, score)
