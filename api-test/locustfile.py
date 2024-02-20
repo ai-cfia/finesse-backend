@@ -51,7 +51,7 @@ class FinesseUser(HttpUser):
                 for page in response_pages:
                     response_url.append(page.get("url"))
                 accuracy_result = calculate_accuracy(response_url, expected_url)
-                time_taken = response.elapsed.microseconds/1000
+                time_taken = round(response.elapsed.microseconds/1000,3)
 
                 expected_page = json_data.copy()
                 del expected_page['question']

@@ -18,6 +18,7 @@ def calculate_accuracy(responses_url: list[str], expected_url: str) -> AccuracyR
         if response_number == expected_number:
             position = idx
             score = 1 - (position / total_pages)
+            score= round(score, 2)
             break
 
     return AccuracyResult(position, total_pages, score)
@@ -96,15 +97,15 @@ def calculate_statistical_summary(test_data: dict) -> tuple[dict, dict]:
     times = [result.get("time") for result in test_data.values()]
     accuracies = [result.get("accuracy") for result in test_data.values()]
     time_stats = {
-        "Mean": statistics.mean(times),
-        "Median": statistics.median(times),
-        "Maximum": max(times),
-        "Minimum": min(times),
+        "Mean": round(statistics.mean(times), 3),
+        "Median": round(statistics.median(times), 3),
+        "Maximum": round(max(times), 3),
+        "Minimum": round(min(times), 3),
     }
     accuracy_stats = {
-        "Mean": statistics.mean(accuracies),
-        "Median": statistics.median(accuracies),
-        "Maximum": max(accuracies),
-        "Minimum": min(accuracies),
+        "Mean": round(statistics.mean(accuracies), 2),
+        "Median": round(statistics.median(accuracies), 2),
+        "Maximum": round(max(accuracies), 2),
+        "Minimum": round(min(accuracies), 2),
     }
     return time_stats, accuracy_stats
