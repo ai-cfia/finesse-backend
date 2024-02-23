@@ -1,7 +1,7 @@
 {
   "name": "Python 3",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
-  "postCreateCommand": "pip3 install --user -r requirements.txt && gh extension install https://github.com/nektos/gh-act",
+  "postCreateCommand": "pip3 install --user -r requirements.txt",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -13,9 +13,5 @@
         "DavidAnson.vscode-markdownlint"
       ]
     }
-  },
-  "features": {
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {},
-    "ghcr.io/devcontainers/features/github-cli:1": {}
   }
 }
