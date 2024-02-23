@@ -107,7 +107,7 @@ to understand and use.
 - **Round trip time**
   - Measure round trip time of each request
 - **Summary statistical value**
-  - Measure the average, median, minimum and maximal accuracy scores and round trip time
+  - Measure the average, median, standard deviation, minimum and maximal accuracy scores and round trip time
 
 ## Diagram
 
