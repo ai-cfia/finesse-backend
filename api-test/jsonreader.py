@@ -1,5 +1,5 @@
 import json
-from typing import Iterator, Dict
+from typing import Iterator
 import os
 
 class JSONReader(Iterator):

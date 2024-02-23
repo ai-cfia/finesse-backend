@@ -3,7 +3,10 @@ from jsonreader import JSONReader
 import os
 import json
 from accuracy_functions import save_to_markdown, save_to_csv, log_data, calculate_accuracy
-from utils import is_host_up
+from host import is_host_up
+
+class NoTestDataError(Exception):
+    """Raised when all requests have failed and there is no test data"""
 
 @events.init_command_line_parser.add_listener
 def _(parser):
@@ -71,6 +74,9 @@ class FinesseUser(HttpUser):
         self.qna_results = dict()
 
     def on_stop(self):
+        if not self.qna_results:
+            raise NoTestDataError
+
         log_data(self.qna_results)
         if self.format == "md":
             save_to_markdown(self.qna_results, self.engine)

@@ -45,6 +45,7 @@ def save_to_markdown(test_data: dict, engine: str):
         md_file.write("|-----------------------|------------|---------|\n")
         md_file.write(f"|Mean| {time_stats.get('Mean')}ms | {accuracy_stats.get('Mean')*100}% |\n")
         md_file.write(f"|Median| {time_stats.get('Median')}ms | {accuracy_stats.get('Median')*100}% |\n")
+        md_file.write(f"|Standard Deviation| {time_stats.get('Standard Deviation')}ms | {accuracy_stats.get('Standard Deviation')*100}% |\n")
         md_file.write(f"|Maximum| {time_stats.get('Maximum')}ms | {accuracy_stats.get('Maximum')*100}% |\n")
         md_file.write(f"|Minimum| {time_stats.get('Minimum')}ms | {accuracy_stats.get('Minimum')*100}% |\n")
 
@@ -70,6 +71,7 @@ def save_to_csv(test_data: dict, engine: str):
         writer.writerow(["Statistic", "Time", "Accuracy Score"])
         writer.writerow(["Mean", f"{time_stats.get('Mean')}", f"{accuracy_stats.get('Mean')}"])
         writer.writerow(["Median", f"{time_stats.get('Median')}", f"{accuracy_stats.get('Median')}"])
+        writer.writerow(["Standard Deviation", f"{time_stats.get('Standard Deviation')}", f"{accuracy_stats.get('Standard Deviation')}"])
         writer.writerow(["Maximum", f"{time_stats.get('Maximum')}", f"{accuracy_stats.get('Maximum')}"])
         writer.writerow(["Minimum", f"{time_stats.get('Minimum')}", f"{accuracy_stats.get('Minimum')}"])
 
@@ -99,12 +101,14 @@ def calculate_statistical_summary(test_data: dict) -> tuple[dict, dict]:
     time_stats = {
         "Mean": round(statistics.mean(times), 3),
         "Median": round(statistics.median(times), 3),
+        "Standard Deviation": round(statistics.stdev(times), 3),
         "Maximum": round(max(times), 3),
         "Minimum": round(min(times), 3),
     }
     accuracy_stats = {
         "Mean": round(statistics.mean(accuracies), 2),
         "Median": round(statistics.median(accuracies), 2),
+        "Standard Deviation": round(statistics.stdev(accuracies), 2),
         "Maximum": round(max(accuracies), 2),
         "Minimum": round(min(accuracies), 2),
     }
