@@ -27,23 +27,3 @@ class JSONReader(Iterator):
             data = json.load(f)
             self.current_file_index += 1
             return data
-
-
-
-class JSONDictReader(Iterator[Dict]):
-    "Read test data from JSON files using an iterator, returns rows as dicts"
-
-    def __init__(self, directory):
-        self.reader = JSONReader(directory)
-
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        data = next(self.reader)
-        if isinstance(data, list):
-            return data[0]  # Assuming each JSON file contains a list of dictionaries
-        elif isinstance(data, dict):
-            return data
-        else:
-            raise ValueError("Invalid JSON format")
