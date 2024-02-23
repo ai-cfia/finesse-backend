@@ -136,9 +136,9 @@ Time: 677.906ms
 ---
 Tested on 21 files.
 Time statistical summary:
-  Mean:429.0285238095238, Median:399.857, Maximum:889.38, Minimum:207.972
+  Mean:429, Median:400, Standard Deviation:150  Maximum:889, Minimum:208
 Accuracy statistical summary:
-  Mean:0.3523809523809524, Median:0.0, Maximum:1.0, Minimum:0.0
+  Mean:0.35, Median:0.0, Standard Deviation:0.25, Maximum:1.0, Minimum:0.0
 ---
 ```
 
