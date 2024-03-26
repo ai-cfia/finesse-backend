@@ -1,10 +1,12 @@
 import logging
 
+from ailab_llama_search import search as llama_search
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchError, search
 
 from app.ailab_db import DBError, ailab_db_search
 from app.blueprints.common import create_error_response
+from app.config import Config
 from app.finesse_data import FinesseDataFetchException, fetch_data
 from app.utils import sanitize
 
@@ -56,7 +58,7 @@ def get_non_empty_query():
 
 @search_blueprint.route("/azure", methods=["POST"])
 def search_azure():
-    config = current_app.config
+    config: Config = current_app.config
     skip = request.args.get(
         "skip", default=config["DEFAULT_AZURE_SEARCH_SKIP"], type=int
     )
@@ -82,4 +84,18 @@ def search_static():
 def search_ailab_db():
     query = get_non_empty_query()
     results = ailab_db_search(query)
+    return jsonify(results)
+
+
+@search_blueprint.route("/llama", methods=["POST"])
+def search_ailab_llama():
+    config: Config = current_app.config
+    top = request.args.get(
+        "top", default=config["DEFAULT_AILAB_LLAMA_SEARCH_TOP"], type=int
+    )
+    query = get_non_empty_query()
+    index = config["AILAB_LLAMA_SEARCH_INDEX"]
+    search_params = {**config["AILAB_LLAMA_SEARCH_PARAMS"], "similarity_top_k": top}
+    trans_paths = config["AILAB_LLAMA_SEARCH_TRANS_PATHS"]
+    results = llama_search(query, index, search_params, trans_paths)
     return jsonify(results)

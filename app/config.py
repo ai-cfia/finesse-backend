@@ -2,9 +2,11 @@ import json
 import os
 from typing import TypedDict
 
+from ailab_llama_search import create_index_object
 from azure.core.credentials import AzureKeyCredential
 from azure.search.documents import SearchClient
 from dotenv import load_dotenv
+from llama_index.core import VectorStoreIndex
 
 import app.constants as constants
 
@@ -17,8 +19,10 @@ class Config(TypedDict):
     DEFAULT_AZURE_SEARCH_TOP: int
     AZURE_SEARCH_PARAMS: dict
     AZURE_SEARCH_TRANSFORM_MAP: dict
-    AZURE_SEMANTIC_CONFIGURATION_NAME: str
-    AZURE_QUERY_TYPE: str
+    AILAB_LLAMA_SEARCH_INDEX: VectorStoreIndex
+    AILAB_LLAMA_SEARCH_PARAMS: dict
+    AILAB_LLAMA_SEARCH_TRANS_PATHS: dict
+    DEFAULT_AILAB_LLAMA_SEARCH_TOP: int
     FINESSE_DATA_URL: str
     DEBUG: bool
     ERROR_EMPTY_QUERY: str
@@ -46,6 +50,17 @@ def create_config() -> Config:
         json.loads(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_PARAMS", "{}"))
         or constants.DEFAULT_AZURE_SEARCH_PARAMS
     )
+    embed_model_params = json.loads(os.getenv("FINESSE_BACKEND_EMBED_MODEL_PARAMS"))
+    vector_store_params = json.loads(os.getenv("FINESSE_BACKEND_VECTOR_STORE_PARAMS"))
+    ailab_llama_index = create_index_object(embed_model_params, vector_store_params)
+    ailab_llama_search_params = (
+        json.loads(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_PARAMS", "{}"))
+        or constants.DEFAULT_AZURE_SEARCH_PARAMS
+    )
+    ailab_llama_trans_paths = (
+        json.loads(os.getenv("FINESSE_BACKEND_TRANS_PATHS", "{}"))
+        or constants.DEFAULT_AILAB_LLAMA_SEARCH_TRANS_PATHS
+    )
 
     return {
         "DEFAULT_AZURE_SEARCH_SKIP": constants.DEFAULT_AZURE_SEARCH_SKIP,
@@ -53,6 +68,10 @@ def create_config() -> Config:
         "AZURE_SEARCH_CLIENT": azure_search_client,
         "AZURE_SEARCH_PARAMS": azure_search_params,
         "AZURE_SEARCH_TRANSFORM_MAP": azure_search_transform_map,
+        "AILAB_LLAMA_SEARCH_INDEX": ailab_llama_index,
+        "AILAB_LLAMA_SEARCH_PARAMS": ailab_llama_search_params,
+        "AILAB_LLAMA_SEARCH_TRANS_PATHS": ailab_llama_trans_paths,
+        "DEFAULT_AILAB_LLAMA_SEARCH_TOP": constants.DEFAULT_AILAB_LLAMA_SEARCH_TOP,
         "FINESSE_DATA_URL": os.getenv("FINESSE_BACKEND_STATIC_FILE_URL"),
         "DEBUG": os.getenv(
             "FINESSE_BACKEND_DEBUG_MODE", constants.DEFAULT_DEBUG_MODE

@@ -1,3 +1,4 @@
+git+https://github.com/ai-cfia/llamaindex-db@6-install-ailab-llama-search-fail#subdirectory=ailab-llama-search
 azure-search-documents
 flask
 flask-cors
@@ -6,5 +7,5 @@ python-dotenv
 git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy
 python-Levenshtein
-git+https://github.com/ai-cfia/ailab-db@main
-
+# TODO: back to main after https://github.com/ai-cfia/ailab-db/pull/89 is merged
+git+https://github.com/ai-cfia/ailab-db@80-fix-package-setup-referencing-louis
