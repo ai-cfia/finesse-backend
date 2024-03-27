@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import patch
 
-from app.ailab_db import DBError
+from ailab.db import DBError
 from app.app_creator import create_app
 from app.config import Config
 from app.constants import (

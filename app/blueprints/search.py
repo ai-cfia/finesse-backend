@@ -1,10 +1,11 @@
 import logging
 
+from ailab.db import DBError
 from ailab_llama_search import search as llama_search
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchError, search
 
-from app.ailab_db import DBError, ailab_db_search
+from app.ailab_db import ailab_db_search
 from app.blueprints.common import create_error_response
 from app.config import Config
 from app.finesse_data import FinesseDataFetchException, fetch_data
@@ -19,30 +20,35 @@ class EmptyQueryError(Exception):
 
 @search_blueprint.errorhandler(AzureIndexSearchError)
 def handle_azure_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_AZURE_FAILED"]
     return create_error_response(error, message, 500)
 
 
 @search_blueprint.errorhandler(FinesseDataFetchException)
 def handle_finesse_data_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_FINESSE_DATA_FAILED"]
     return create_error_response(error, message, 500)
 
 
 @search_blueprint.errorhandler(DBError)
 def handle_db_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_AILAB_FAILED"]
     return create_error_response(error, message, 500)
 
 
 @search_blueprint.errorhandler(EmptyQueryError)
 def handle_empty_query_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_EMPTY_QUERY"]
     return create_error_response(error, message, 400)
 
 
 @search_blueprint.errorhandler(Exception)
 def handle_unexpected_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_UNEXPECTED"]
     return create_error_response(error, message, 500)
 
