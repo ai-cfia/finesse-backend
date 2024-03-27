@@ -4,8 +4,8 @@
 
 ![Alt text](docs/finesse-component-diagram.png "Finesse component diagram")
 
-## Documentation:
+## Documentation
 
-* [Installation](docs/INSTALLATION.md)
-* [Usage](docs/USAGE.md)
-* [Deployment](docs/DEPLOYMENT.md)
+- [Installation](docs/INSTALLATION.md)
+- [Usage](docs/USAGE.md)
+- [Deployment](docs/DEPLOYMENT.md)

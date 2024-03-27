@@ -51,10 +51,10 @@ def create_config() -> Config:
         or constants.DEFAULT_AZURE_SEARCH_PARAMS
     )
     embed_model_params = json.loads(
-        os.getenv("FINESSE_BACKEND_LLAMA_EMBED_MODEL_PARAMS")
+        os.getenv("FINESSE_BACKEND_LLAMA_EMBED_MODEL_PARAMS", "{}")
     )
     vector_store_params = json.loads(
-        os.getenv("FINESSE_BACKEND_LLAMA_VECTOR_STORE_PARAMS")
+        os.getenv("FINESSE_BACKEND_LLAMA_VECTOR_STORE_PARAMS", "{}")
     )
     ailab_llama_index = create_index_object(embed_model_params, vector_store_params)
     ailab_llama_search_params = (
