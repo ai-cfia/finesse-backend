@@ -44,21 +44,25 @@ def create_config() -> Config:
     )
     azure_search_transform_map = (
         json.loads(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_TRANSFORM_MAP", "{}"))
-        or constants.DEFAULT_AZURE_SEARCH_TRANSFORM_MAP_JSON
+        or constants.DEFAULT_AZURE_SEARCH_TRANSFORM_MAP
     )
     azure_search_params = (
         json.loads(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_PARAMS", "{}"))
         or constants.DEFAULT_AZURE_SEARCH_PARAMS
     )
-    embed_model_params = json.loads(os.getenv("FINESSE_BACKEND_EMBED_MODEL_PARAMS"))
-    vector_store_params = json.loads(os.getenv("FINESSE_BACKEND_VECTOR_STORE_PARAMS"))
+    embed_model_params = json.loads(
+        os.getenv("FINESSE_BACKEND_LLAMA_EMBED_MODEL_PARAMS")
+    )
+    vector_store_params = json.loads(
+        os.getenv("FINESSE_BACKEND_LLAMA_VECTOR_STORE_PARAMS")
+    )
     ailab_llama_index = create_index_object(embed_model_params, vector_store_params)
     ailab_llama_search_params = (
         json.loads(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_PARAMS", "{}"))
-        or constants.DEFAULT_AZURE_SEARCH_PARAMS
+        or constants.DEFAULT_AILAB_LLAMA_SEARCH_PARAMS
     )
     ailab_llama_trans_paths = (
-        json.loads(os.getenv("FINESSE_BACKEND_TRANS_PATHS", "{}"))
+        json.loads(os.getenv("FINESSE_BACKEND_LLAMA_TRANS_PATHS", "{}"))
         or constants.DEFAULT_AILAB_LLAMA_SEARCH_TRANS_PATHS
     )
 

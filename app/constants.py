@@ -34,7 +34,7 @@ DEFAULT_AZURE_SEARCH_TOP = 10
 
 # Mapping of Azure search result fields to desired output structure.
 # Knowledge of the index search result structure is required.
-DEFAULT_AZURE_SEARCH_TRANSFORM_MAP_JSON = {
+DEFAULT_AZURE_SEARCH_TRANSFORM_MAP = {
     "id": "/id",
     "title": "/title",
     "score": "/@search.score",
@@ -67,4 +67,4 @@ DEFAULT_AILAB_LLAMA_SEARCH_TRANS_PATHS = {
 }
 
 # Default Ailab Llama parameters
-DEFAULT_AZURE_SEARCH_PARAMS = {}
+DEFAULT_AILAB_LLAMA_SEARCH_PARAMS = {}
