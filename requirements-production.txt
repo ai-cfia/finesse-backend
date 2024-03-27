@@ -1,9 +1,10 @@
-azure-search-documents==11.4.0  # Released: 2023-11-13
-flask==3.0.0                    # Released: 2023-09-30
-flask-cors==4.0.0               # Released: 2023-06-26
-gunicorn==21.2.0                # Released: 2023-07-19
-python-dotenv==1.0.0            # Released: 2023-02-24
+git+https://github.com/ai-cfia/llamaindex-db@6-install-ailab-llama-search-fail#subdirectory=ailab-llama-search
+azure-search-documents==11.4.0
+flask==3.0.2
+flask-cors==4.0.0
+gunicorn==21.2.0
+python-dotenv==1.0.1
 git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy==0.18.0
-python-Levenshtein== 0.23.0
-git+https://github.com/ai-cfia/ailab-db@main
+python-Levenshtein==0.25.0
+git+https://github.com/ai-cfia/ailab-db@80-fix-package-setup-referencing-louis
