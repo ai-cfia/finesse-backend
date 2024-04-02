@@ -1,3 +1,5 @@
+# todo: back to main
+git+https://github.com/ai-cfia/llamaindex-db@8-rename-ailab-llama-search-to-ailab-llamaindex-search#subdirectory=ailab-llamaindex-search
 azure-search-documents
 flask
 flask-cors
@@ -7,4 +9,3 @@ git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy
 python-Levenshtein
 git+https://github.com/ai-cfia/ailab-db@main
-

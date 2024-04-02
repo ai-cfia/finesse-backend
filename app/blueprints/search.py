@@ -1,10 +1,13 @@
 import logging
 
+from ailab.db import DBError
+from ailab_llamaindex_search import search as llamaindex_search
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchError, search
 
-from app.ailab_db import DBError, ailab_db_search
+from app.ailab_db import ailab_db_search
 from app.blueprints.common import create_error_response
+from app.config import Config
 from app.finesse_data import FinesseDataFetchException, fetch_data
 from app.utils import sanitize
 
@@ -17,30 +20,35 @@ class EmptyQueryError(Exception):
 
 @search_blueprint.errorhandler(AzureIndexSearchError)
 def handle_azure_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_AZURE_FAILED"]
     return create_error_response(error, message, 500)
 
 
 @search_blueprint.errorhandler(FinesseDataFetchException)
 def handle_finesse_data_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_FINESSE_DATA_FAILED"]
     return create_error_response(error, message, 500)
 
 
 @search_blueprint.errorhandler(DBError)
 def handle_db_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_AILAB_FAILED"]
     return create_error_response(error, message, 500)
 
 
 @search_blueprint.errorhandler(EmptyQueryError)
 def handle_empty_query_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_EMPTY_QUERY"]
     return create_error_response(error, message, 400)
 
 
 @search_blueprint.errorhandler(Exception)
 def handle_unexpected_error(error):
+    logging.exception(error)
     message = current_app.config["ERROR_UNEXPECTED"]
     return create_error_response(error, message, 500)
 
@@ -56,7 +64,7 @@ def get_non_empty_query():
 
 @search_blueprint.route("/azure", methods=["POST"])
 def search_azure():
-    config = current_app.config
+    config: Config = current_app.config
     skip = request.args.get(
         "skip", default=config["DEFAULT_AZURE_SEARCH_SKIP"], type=int
     )
@@ -82,4 +90,21 @@ def search_static():
 def search_ailab_db():
     query = get_non_empty_query()
     results = ailab_db_search(query)
+    return jsonify(results)
+
+
+@search_blueprint.route("/llamaindex", methods=["POST"])
+def search_ailab_llamaindex():
+    config: Config = current_app.config
+    top = request.args.get(
+        "top", default=config["DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP"], type=int
+    )
+    query = get_non_empty_query()
+    index = config["AILAB_LLAMAINDEX_SEARCH_INDEX"]
+    search_params = {
+        **config["AILAB_LLAMAINDEX_SEARCH_PARAMS"],
+        "similarity_top_k": top,
+    }
+    trans_paths = config["AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS"]
+    results = llamaindex_search(query, index, search_params, trans_paths)
     return jsonify(results)

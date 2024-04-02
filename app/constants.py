@@ -15,7 +15,7 @@ DEFAULT_ERROR_FINESSE_DATA_FAILED = "finesse-data static search failed"
 # Default error message for any unexpected errors encountered
 DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 
-# Threshold for fuzzy match scoring, default set to 90%
+# Threshold for fuzzy match scoring
 DEFAULT_FUZZY_MATCH_THRESHOLD = 90
 
 # Default error message when Ailab-db search fails
@@ -26,15 +26,15 @@ DEFAULT_SANITIZE_PATTERN = (
     "[^\w \d\"#\$%&'\(\)\*\+,-\.\/:;?@\^_`{\|}~]+|\%\w+|;|/|\(|\)"
 )
 
-# Default number of search results to skip in Azure search, default is 0
+# Default number of search results to skip in Azure search
 DEFAULT_AZURE_SEARCH_SKIP = 0
 
-# Default number of search results to return from Azure search, default is 10
+# Default number of search results to return from Azure search
 DEFAULT_AZURE_SEARCH_TOP = 10
 
 # Mapping of Azure search result fields to desired output structure.
 # Knowledge of the index search result structure is required.
-DEFAULT_AZURE_SEARCH_TRANSFORM_MAP_JSON = {
+DEFAULT_AZURE_SEARCH_TRANSFORM_MAP = {
     "id": "/id",
     "title": "/title",
     "score": "/@search.score",
@@ -43,6 +43,28 @@ DEFAULT_AZURE_SEARCH_TRANSFORM_MAP_JSON = {
     "last_updated": "/last_updated",
 }
 
-# Default parameters for Azure search highlighting
+# Default Azure search parameters
 # Consult https://learn.microsoft.com/en-us/python/api/azure-search-documents/azure.search.documents.searchclient?view=azure-python#azure-search-documents-searchclient-search
 DEFAULT_AZURE_SEARCH_PARAMS = {}
+
+# Default number of search results to return from Ailab LlamaIndex Search
+DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP = 10
+
+# Mapping of Ailab LlamaIndex search result fields to desired output structure.
+# Knowledge of the index search result structure is required.
+DEFAULT_AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS = {
+    "id": "node/metadata/id",
+    "chunk_id": "node/metadata/chunk_id",
+    "url": "node/metadata/url",
+    "title": "node/metadata/title",
+    "subtitle": "node/metadata/subtitle",
+    "tokens_count": "node/metadata/tokens_count",
+    "last_updated": "node/metadata/last_updated",
+    "score": "node/metadata/score",
+    "llamaindex_id": "node/id_",
+    "llamaindex_score": "score",
+    "content": "node/text",
+}
+
+# Default Ailab LlamaIndex parameters
+DEFAULT_AILAB_LLAMAINDEX_SEARCH_PARAMS = {}
