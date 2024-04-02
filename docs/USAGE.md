@@ -58,10 +58,10 @@ curl -X POST "http://localhost:5000/search/azure?top=10&skip=0" --data '{"query"
 curl -X POST http://localhost:5000/search/ailab --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
 ```
 
-### Test the path: `/search/llama`
+### Test the path: `/search/llamaindex`
 
 ```bash
-curl -X POST "http://localhost:5000/search/llama?top=10" --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
+curl -X POST "http://localhost:5000/search/llamaindex?top=10" --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
 ```
 
 - `top` (optional): Number of search results to return.

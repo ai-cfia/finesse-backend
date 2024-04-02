@@ -1,7 +1,7 @@
 import logging
 
 from ailab.db import DBError
-from ailab_llama_search import search as llama_search
+from ailab_llamaindex_search import search as llamaindex_search
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchError, search
 
@@ -93,15 +93,18 @@ def search_ailab_db():
     return jsonify(results)
 
 
-@search_blueprint.route("/llama", methods=["POST"])
-def search_ailab_llama():
+@search_blueprint.route("/llamaindex", methods=["POST"])
+def search_ailab_llamaindex():
     config: Config = current_app.config
     top = request.args.get(
-        "top", default=config["DEFAULT_AILAB_LLAMA_SEARCH_TOP"], type=int
+        "top", default=config["DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP"], type=int
     )
     query = get_non_empty_query()
-    index = config["AILAB_LLAMA_SEARCH_INDEX"]
-    search_params = {**config["AILAB_LLAMA_SEARCH_PARAMS"], "similarity_top_k": top}
-    trans_paths = config["AILAB_LLAMA_SEARCH_TRANS_PATHS"]
-    results = llama_search(query, index, search_params, trans_paths)
+    index = config["AILAB_LLAMAINDEX_SEARCH_INDEX"]
+    search_params = {
+        **config["AILAB_LLAMAINDEX_SEARCH_PARAMS"],
+        "similarity_top_k": top,
+    }
+    trans_paths = config["AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS"]
+    results = llamaindex_search(query, index, search_params, trans_paths)
     return jsonify(results)

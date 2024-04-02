@@ -47,12 +47,12 @@ DEFAULT_AZURE_SEARCH_TRANSFORM_MAP = {
 # Consult https://learn.microsoft.com/en-us/python/api/azure-search-documents/azure.search.documents.searchclient?view=azure-python#azure-search-documents-searchclient-search
 DEFAULT_AZURE_SEARCH_PARAMS = {}
 
-# Default number of search results to return from Ailab Llama Search
-DEFAULT_AILAB_LLAMA_SEARCH_TOP = 10
+# Default number of search results to return from Ailab LlamaIndex Search
+DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP = 10
 
-# Mapping of Ailab Llama search result fields to desired output structure.
+# Mapping of Ailab LlamaIndex search result fields to desired output structure.
 # Knowledge of the index search result structure is required.
-DEFAULT_AILAB_LLAMA_SEARCH_TRANS_PATHS = {
+DEFAULT_AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS = {
     "id": "node/metadata/id",
     "chunk_id": "node/metadata/chunk_id",
     "url": "node/metadata/url",
@@ -61,10 +61,10 @@ DEFAULT_AILAB_LLAMA_SEARCH_TRANS_PATHS = {
     "tokens_count": "node/metadata/tokens_count",
     "last_updated": "node/metadata/last_updated",
     "score": "node/metadata/score",
-    "llama_id": "node/id_",
-    "llama_score": "score",
+    "llamaindex_id": "node/id_",
+    "llamaindex_score": "score",
     "content": "node/text",
 }
 
-# Default Ailab Llama parameters
-DEFAULT_AILAB_LLAMA_SEARCH_PARAMS = {}
+# Default Ailab LlamaIndex parameters
+DEFAULT_AILAB_LLAMAINDEX_SEARCH_PARAMS = {}
