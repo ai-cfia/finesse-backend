@@ -1,4 +1,4 @@
-git+https://github.com/ai-cfia/llamaindex-db@12-duplicated-url-results-with-ai-lab-llamaindex-search-in-llamaindex-db#subdirectory=ailab-llamaindex-search
+git+https://github.com/ai-cfia/llamaindex-db@main#subdirectory=ailab-llamaindex-search
 azure-search-documents
 flask
 flask-cors
