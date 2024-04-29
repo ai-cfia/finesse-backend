@@ -65,10 +65,8 @@ def get_non_empty_query():
 @search_blueprint.route("/azure", methods=["POST"])
 def search_azure():
     config: Config = current_app.config
-    skip = request.args.get(
-        "skip", default=config["DEFAULT_AZURE_SEARCH_SKIP"], type=int
-    )
-    top = request.args.get("top", default=config["DEFAULT_AZURE_SEARCH_TOP"], type=int)
+    skip = request.args.get("skip", config["DEFAULT_AZURE_SEARCH_SKIP"], int)
+    top = request.args.get("top", config["DEFAULT_AZURE_SEARCH_TOP"], int)
     query = get_non_empty_query()
     search_params = {**config["AZURE_SEARCH_PARAMS"], "skip": skip, "top": top}
     client = config["AZURE_SEARCH_CLIENT"]
@@ -96,15 +94,9 @@ def search_ailab_db():
 @search_blueprint.route("/llamaindex", methods=["POST"])
 def search_ailab_llamaindex():
     config: Config = current_app.config
-    top = request.args.get(
-        "top", default=config["DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP"], type=int
-    )
+    top = request.args.get("top", config["DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP"], int)
     query = get_non_empty_query()
     index = config["AILAB_LLAMAINDEX_SEARCH_INDEX"]
-    search_params = {
-        **config["AILAB_LLAMAINDEX_SEARCH_PARAMS"],
-        "similarity_top_k": top,
-    }
     trans_paths = config["AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS"]
-    results = llamaindex_search(query, index, search_params, trans_paths)
+    results = llamaindex_search(query, index, top, trans_paths)
     return jsonify(results)

@@ -1,4 +1,4 @@
-git+https://github.com/ai-cfia/llamaindex-db@8-rename-ailab-llama-search-to-ailab-llamaindex-search#subdirectory=ailab-llamaindex-search
+git+https://github.com/ai-cfia/llamaindex-db@12-duplicated-url-results-with-ai-lab-llamaindex-search-in-llamaindex-db#subdirectory=ailab-llamaindex-search
 azure-search-documents==11.4.0
 flask==3.0.2
 flask-cors==4.0.0
