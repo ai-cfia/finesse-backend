@@ -1,6 +1,6 @@
 # We chose Python 3.11 full variant as other variants lacks some tools necessary 
 # to build this project's dependencies
-FROM python:3.11
+FROM python:3.12
 
 # Establish /code as working directory in the container
 WORKDIR /code
