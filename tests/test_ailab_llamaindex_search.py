@@ -17,7 +17,6 @@ class TestAilabLLamaIndexSearch(unittest.TestCase):
             "ERROR_UNEXPECTED": constants.DEFAULT_ERROR_UNEXPECTED,
             "ERROR_EMPTY_QUERY": constants.DEFAULT_ERROR_EMPTY_QUERY,
             "AILAB_LLAMAINDEX_SEARCH_INDEX": Mock(),
-            "AILAB_LLAMAINDEX_SEARCH_PARAMS": constants.DEFAULT_AILAB_LLAMAINDEX_SEARCH_PARAMS,
             "AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS": constants.DEFAULT_AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS,
             "DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP": constants.DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP,
         }
@@ -37,7 +36,7 @@ class TestAilabLLamaIndexSearch(unittest.TestCase):
             mock_search.assert_called_with(
                 "some query",
                 self.config["AILAB_LLAMAINDEX_SEARCH_INDEX"],
-                {"similarity_top_k": 5, **self.config["AILAB_LLAMAINDEX_SEARCH_PARAMS"]},
+                5,
                 self.config["AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS"],
             )
 
@@ -53,10 +52,7 @@ class TestAilabLLamaIndexSearch(unittest.TestCase):
             mock_search.assert_called_with(
                 "some query",
                 self.config["AILAB_LLAMAINDEX_SEARCH_INDEX"],
-                {
-                    "similarity_top_k": self.config["DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP"],
-                    **self.config["AILAB_LLAMAINDEX_SEARCH_PARAMS"],
-                },
+                self.config["DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP"],
                 self.config["AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS"],
             )
 

@@ -20,7 +20,6 @@ class Config(TypedDict):
     AZURE_SEARCH_PARAMS: dict
     AZURE_SEARCH_TRANSFORM_MAP: dict
     AILAB_LLAMAINDEX_SEARCH_INDEX: VectorStoreIndex
-    AILAB_LLAMAINDEX_SEARCH_PARAMS: dict
     AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS: dict
     DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP: int
     FINESSE_DATA_URL: str
@@ -56,10 +55,8 @@ def create_config() -> Config:
     vector_store_params = json.loads(
         os.getenv("FINESSE_BACKEND_LLAMAINDEX_VECTOR_STORE_PARAMS", "{}")
     )
-    ailab_llamaindex_index = create_index_object(embed_model_params, vector_store_params)
-    ailab_llamaindex_search_params = (
-        json.loads(os.getenv("FINESSE_BACKEND_AZURE_SEARCH_PARAMS", "{}"))
-        or constants.DEFAULT_AILAB_LLAMAINDEX_SEARCH_PARAMS
+    ailab_llamaindex_index = create_index_object(
+        embed_model_params, vector_store_params
     )
     ailab_llamaindex_trans_paths = (
         json.loads(os.getenv("FINESSE_BACKEND_LLAMAINDEX_TRANS_PATHS", "{}"))
@@ -73,7 +70,6 @@ def create_config() -> Config:
         "AZURE_SEARCH_PARAMS": azure_search_params,
         "AZURE_SEARCH_TRANSFORM_MAP": azure_search_transform_map,
         "AILAB_LLAMAINDEX_SEARCH_INDEX": ailab_llamaindex_index,
-        "AILAB_LLAMAINDEX_SEARCH_PARAMS": ailab_llamaindex_search_params,
         "AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS": ailab_llamaindex_trans_paths,
         "DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP": constants.DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP,
         "FINESSE_DATA_URL": os.getenv("FINESSE_BACKEND_STATIC_FILE_URL"),
