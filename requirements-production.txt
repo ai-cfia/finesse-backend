@@ -1,6 +1,6 @@
 git+https://github.com/ai-cfia/llamaindex-db@8-rename-ailab-llama-search-to-ailab-llamaindex-search#subdirectory=ailab-llamaindex-search
 azure-search-documents==11.4.0
-flask==3.0.2
+flask==3.0.3
 flask-cors==4.0.0
 gunicorn==21.2.0
 python-dotenv==1.0.1
