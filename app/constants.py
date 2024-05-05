@@ -65,6 +65,3 @@ DEFAULT_AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS = {
     "llamaindex_score": "score",
     "content": "node/text",
 }
-
-# Default Ailab LlamaIndex parameters
-DEFAULT_AILAB_LLAMAINDEX_SEARCH_PARAMS = {}
