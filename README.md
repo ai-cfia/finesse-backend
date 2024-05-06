@@ -2,7 +2,8 @@
 
 ## Architecture overview
 
-![Alt text](docs/finesse-component-diagram.png "Finesse component diagram")
+<!-- ![Alt text](docs/finesse-component-diagram.png "Finesse component diagram") -->
+<!-- TODO -->
 
 ## Documentation
 

@@ -27,7 +27,6 @@ class Config(TypedDict):
     ERROR_EMPTY_QUERY: str
     ERROR_AZURE_FAILED: str
     ERROR_FINESSE_DATA_FAILED: str
-    ERROR_AILAB_FAILED: str
     ERROR_UNEXPECTED: str
     FUZZY_MATCH_THRESHOLD: int
     SANITIZE_PATTERN: str
@@ -86,9 +85,6 @@ def create_config() -> Config:
         "ERROR_FINESSE_DATA_FAILED": os.getenv(
             "FINESSE_BACKEND_ERROR_FINESSE_DATA_FAILED",
             constants.DEFAULT_ERROR_FINESSE_DATA_FAILED,
-        ),
-        "ERROR_AILAB_FAILED": os.getenv(
-            "FINESSE_BACKEND_ERROR_AILAB_FAILED", constants.DEFAULT_ERROR_AILAB_FAILED
         ),
         "ERROR_UNEXPECTED": os.getenv(
             "FINESSE_BACKEND_ERROR_UNEXPECTED", constants.DEFAULT_ERROR_UNEXPECTED

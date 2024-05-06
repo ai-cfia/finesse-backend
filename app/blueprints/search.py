@@ -1,11 +1,9 @@
 import logging
 
-from ailab.db import DBError
 from ailab_llamaindex_search import search as llamaindex_search
 from flask import Blueprint, current_app, jsonify, request
 from index_search import AzureIndexSearchError, search
 
-from app.ailab_db import ailab_db_search
 from app.blueprints.common import create_error_response
 from app.config import Config
 from app.finesse_data import FinesseDataFetchException, fetch_data
@@ -29,13 +27,6 @@ def handle_azure_error(error):
 def handle_finesse_data_error(error):
     logging.exception(error)
     message = current_app.config["ERROR_FINESSE_DATA_FAILED"]
-    return create_error_response(error, message, 500)
-
-
-@search_blueprint.errorhandler(DBError)
-def handle_db_error(error):
-    logging.exception(error)
-    message = current_app.config["ERROR_AILAB_FAILED"]
     return create_error_response(error, message, 500)
 
 
@@ -82,13 +73,6 @@ def search_static():
     match_threshold = current_app.config["FUZZY_MATCH_THRESHOLD"]
     data = fetch_data(finesse_data_url, query, match_threshold)
     return jsonify(data)
-
-
-@search_blueprint.route("/ailab", methods=["POST"])
-def search_ailab_db():
-    query = get_non_empty_query()
-    results = ailab_db_search(query)
-    return jsonify(results)
 
 
 @search_blueprint.route("/llamaindex", methods=["POST"])

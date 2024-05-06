@@ -6,5 +6,4 @@ gunicorn==22.0.0
 python-dotenv==1.0.1
 git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
 fuzzywuzzy==0.18.0
-python-Levenshtein==0.25.1
-git+https://github.com/ai-cfia/ailab-db@main
+python-Levenshtein==0.25.0

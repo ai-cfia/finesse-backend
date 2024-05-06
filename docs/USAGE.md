@@ -32,7 +32,7 @@ docker build -t finesse-backend .
 Deploy the container locally:
 
 ```bash
-docker run -p 5000:5000 -e PORT=$PORT --env-file .env finesse-backend
+docker run -p 5000:5000 -e PORT=5000 --env-file .env finesse-backend
 ```
 
 ## Check if the API is working properly
@@ -51,12 +51,6 @@ curl -X POST "http://localhost:5000/search/azure?top=10&skip=0" --data '{"query"
 
 - `top` (optional): Number of search results to return.
 - `skip` (optional): Number of search results to skip from the start.
-
-### Test the path: `/search/ailab`
-
-```bash
-curl -X POST http://localhost:5000/search/ailab --data '{"query": "is e.coli a virus or bacteria?"}' -H "Content-Type: application/json"
-```
 
 ### Test the path: `/search/llamaindex`
 

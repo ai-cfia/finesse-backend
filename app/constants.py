@@ -18,12 +18,9 @@ DEFAULT_ERROR_UNEXPECTED = "Unexpected error."
 # Threshold for fuzzy match scoring
 DEFAULT_FUZZY_MATCH_THRESHOLD = 90
 
-# Default error message when Ailab-db search fails
-DEFAULT_ERROR_AILAB_FAILED = "Ailab-db search failed."
-
 # Regular expression pattern for sanitizing search queries
 DEFAULT_SANITIZE_PATTERN = (
-    "[^\w \d\"#\$%&'\(\)\*\+,-\.\/:;?@\^_`{\|}~]+|\%\w+|;|/|\(|\)"
+    "[^\\w \\d\"#\\$%&'\\(\\)\\*\\+,-\\.\\/:;?@\\^_`{\\|}~]+|\\%\\w+|;|/|\\(\\)"
 )
 
 # Default number of search results to skip in Azure search
