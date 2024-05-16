@@ -1,0 +1,49 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - finesse-backend
+      - finesse-frontend
+    networks:
+      - finesse-network
+
+  finesse-backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["/bin/sh", "-c", "gunicorn --bind :8080 --workers 1 --threads 8 --timeout 0 --forwarded-allow-ips '*' app:app"]
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      - PORT=8080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - finesse-network
+
+  finesse-frontend:
+    image: ghcr.io/ai-cfia/finesse-frontend:main
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    networks:
+      - finesse-network
+
+networks:
+  finesse-network:
+    driver: bridge
