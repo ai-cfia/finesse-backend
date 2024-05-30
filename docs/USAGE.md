@@ -46,7 +46,7 @@ To run the API and the client together, you can use the following command:
 docker-compose up --build
 ```
 
-You can then access the client at <http://localhost>.
+You can then access the client at `http://localhost`.
 
 ## Check if the API is working properly
 
