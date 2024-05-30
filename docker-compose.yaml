@@ -2,18 +2,19 @@ version: '3.8'
 
 services:
   nginx:
-    image: nginx:latest
+    image: ghcr.io/ai-cfia/nginx:latest
     ports:
       - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
+    environment:
+      - BACKEND_PORT=8080
+      - FRONTEND_PORT=3000
     depends_on:
-      - finesse-backend
-      - finesse-frontend
+      - backend
+      - frontend
     networks:
       - finesse-network
 
-  finesse-backend:
+  backend:
     build:
       context: .
       dockerfile: Dockerfile
@@ -32,7 +33,7 @@ services:
     networks:
       - finesse-network
 
-  finesse-frontend:
+  frontend:
     image: ghcr.io/ai-cfia/finesse-frontend:main
     ports:
       - "3000:3000"
