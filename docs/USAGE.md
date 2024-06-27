@@ -35,6 +35,19 @@ Deploy the container locally:
 docker run -p 5000:5000 -e PORT=5000 --env-file .env finesse-backend
 ```
 
+### Docker-compose (optional)
+
+You can also use `docker-compose` to run the API with the client. The client is
+the web interface that makes use of the API and is available at <https://github.com/ai-cfia/finesse-frontend>.
+
+To run the API and the client together, you can use the following command:
+
+```bash
+docker-compose up --build
+```
+
+You can then access the client at `http://localhost`.
+
 ## Check if the API is working properly
 
 ### Test the path: `/search/static`
