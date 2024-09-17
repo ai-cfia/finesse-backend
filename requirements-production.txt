@@ -1,7 +1,7 @@
 git+https://github.com/ai-cfia/llamaindex-db@main#subdirectory=ailab-llamaindex-search
 azure-search-documents==11.4.0
 flask==3.0.3
-flask-cors==4.0.0
+flask-cors==4.0.2
 gunicorn==22.0.0
 python-dotenv==1.0.1
 git+https://github.com/ai-cfia/azure-db.git@main#subdirectory=azure-ai-search
