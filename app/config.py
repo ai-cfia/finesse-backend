@@ -50,9 +50,11 @@ def create_config() -> Config:
     )
     embed_model_params = json.loads(
         os.getenv("FINESSE_BACKEND_LLAMAINDEX_EMBED_MODEL_PARAMS", "{}")
+        or constants.DEFAULT_EMBED_MODEL_PARAMS
     )
     vector_store_params = json.loads(
         os.getenv("FINESSE_BACKEND_LLAMAINDEX_VECTOR_STORE_PARAMS", "{}")
+        or constants.DEFAULT_VECTOR_STORE_PARAMS
     )
     ailab_llamaindex_index = create_index_object(
         embed_model_params, vector_store_params

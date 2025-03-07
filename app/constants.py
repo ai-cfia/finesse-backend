@@ -42,7 +42,13 @@ DEFAULT_AZURE_SEARCH_TRANSFORM_MAP = {
 
 # Default Azure search parameters
 # Consult https://learn.microsoft.com/en-us/python/api/azure-search-documents/azure.search.documents.searchclient?view=azure-python#azure-search-documents-searchclient-search
-DEFAULT_AZURE_SEARCH_PARAMS = {}
+DEFAULT_AZURE_SEARCH_PARAMS = {
+    "highlight_fields": "content",
+    "highlight_pre_tag": "<strong>",
+    "highlight_post_tag": "</strong>",
+    "query_type": "semantic",
+    "semantic_configuration_name": "Semantic-config-public-guidance-docs",
+}
 
 # Default number of search results to return from Ailab LlamaIndex Search
 DEFAULT_AILAB_LLAMAINDEX_SEARCH_TOP = 10
@@ -62,3 +68,9 @@ DEFAULT_AILAB_LLAMAINDEX_SEARCH_TRANS_PATHS = {
     "llamaindex_score": "score",
     "content": "node/text",
 }
+
+
+DEFAULT_EMBED_MODEL_PARAMS = {}
+
+
+DEFAULT_VECTOR_STORE_PARAMS = {}
