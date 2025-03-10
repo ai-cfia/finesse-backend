@@ -11,8 +11,11 @@ def create_app(config):
     from .blueprints.search import search_blueprint
 
     app.register_blueprint(
-        monitor_blueprint, url_prefix="/health", strict_slashes=False
+        monitor_blueprint, url_prefix="/api/health", strict_slashes=False
     )
-    app.register_blueprint(search_blueprint, url_prefix="/search", strict_slashes=False)
+
+    app.register_blueprint(
+        search_blueprint, url_prefix="/api/search", strict_slashes=False
+    )
 
     return app
