@@ -36,7 +36,7 @@ DEFAULT_AZURE_SEARCH_TRANSFORM_MAP = {
     "title": "/title",
     "score": "/@search.score",
     "url": "/url",
-    "content": "/content",
+    "content": "/@search.highlights/content/0",
     "last_updated": "/last_updated",
 }
 
